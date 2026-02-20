@@ -194,7 +194,8 @@ def first_content_word(title: str) -> str:
         "after", "before", "during", "without", "toward", "towards",
         "how", "what", "when", "where", "which", "who", "whom", "why",
     }
-    cleaned = _strip_latex(normalize_text(title))
+    # Decode HTML entities first so &quot; becomes " (then stripped), not "quot"
+    cleaned = _strip_latex(normalize_text(unescape(title)))
     tokens = re.findall(r"[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*", cleaned)
     for token in tokens:
         slug = re.sub(r"[^a-z0-9]", "", token.lower())
