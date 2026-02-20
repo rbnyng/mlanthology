@@ -1,0 +1,116 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+{{ $description := .Site.Params.description }}
+{{ if .Params.abstract }}
+  {{ $description = .Params.abstract | truncate 160 }}
+{{ else if .Description }}
+  {{ $description = .Description }}
+{{ end }}
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- OpenGraph -->
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ $description }}">
+
+<!-- Schema.org structured data -->
+{{ if and .Title .Params.paper_authors }}
+{{/* Individual paper page — ScholarlyArticle */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "{{ .Title }}",
+  "name": "{{ .Title }}",
+  "author": [{{ range $i, $a := .Params.paper_authors }}{{ if $i }},{{ end }}{"@type":"Person","name":"{{ $a.given }} {{ $a.family }}"}{{ end }}],
+  "datePublished": "{{ .Params.year }}",
+  "url": "{{ .Permalink }}",
+  {{ with .Params.abstract }}"description": {{ . | jsonify }},{{ end }}
+  {{ with .Params.venue_name }}"isPartOf": {"@type":"Periodical","name":"{{ . }}"},{{ end }}
+  {{ with .Params.pages }}"pagination": "{{ . }}",{{ end }}
+  "publisher": {"@type":"Organization","name":"{{ .Site.Title }}"}
+}
+</script>
+{{ end }}
+
+{{ if .IsHome }}
+{{/* Home page — WebSite with SearchAction */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ .Site.BaseURL }}search/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{{ end }}
+
+{{/* Breadcrumb structured data for non-home pages */}}
+{{ if not .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Home","item":"{{ .Site.BaseURL }}"}
+    {{ if .Parent }}
+      {{ if .Parent.Parent }}
+        {{ if .Parent.Parent.Parent }}
+        ,{"@type":"ListItem","position":2,"name":"{{ .Parent.Parent.Parent.Title }}","item":"{{ .Parent.Parent.Parent.Permalink }}"}
+        ,{"@type":"ListItem","position":3,"name":"{{ .Parent.Parent.Title }}","item":"{{ .Parent.Parent.Permalink }}"}
+        ,{"@type":"ListItem","position":4,"name":"{{ .Parent.Title }}","item":"{{ .Parent.Permalink }}"}
+        ,{"@type":"ListItem","position":5,"name":"{{ .Title }}","item":"{{ .Permalink }}"}
+        {{ else }}
+        ,{"@type":"ListItem","position":2,"name":"{{ .Parent.Parent.Title }}","item":"{{ .Parent.Parent.Permalink }}"}
+        ,{"@type":"ListItem","position":3,"name":"{{ .Parent.Title }}","item":"{{ .Parent.Permalink }}"}
+        ,{"@type":"ListItem","position":4,"name":"{{ .Title }}","item":"{{ .Permalink }}"}
+        {{ end }}
+      {{ else }}
+      ,{"@type":"ListItem","position":2,"name":"{{ .Parent.Title }}","item":"{{ .Parent.Permalink }}"}
+      ,{"@type":"ListItem","position":3,"name":"{{ .Title }}","item":"{{ .Permalink }}"}
+      {{ end }}
+    {{ else }}
+    ,{"@type":"ListItem","position":2,"name":"{{ .Title }}","item":"{{ .Permalink }}"}
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
+<!-- KaTeX for math rendering (load before site CSS so our overrides take precedence) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+<link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>

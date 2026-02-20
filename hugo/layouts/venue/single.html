@@ -1,0 +1,100 @@
+{{ define "main" }}
+<article class="paper-detail" data-pagefind-body>
+  <h1>{{ .Title }}</h1>
+
+  {{/* Pagefind metadata for structured search results */}}
+  <span data-pagefind-meta="title:{{ .Title }}"></span>
+  <span data-pagefind-meta="authors:{{ range $i, $a := .Params.paper_authors }}{{ if $i }}, {{ end }}{{ $a.given }} {{ $a.family }}{{ end }}"></span>
+  <span data-pagefind-filter="venue:{{ .Params.venue }}"></span>
+  <span data-pagefind-filter="year:{{ .Params.year }}"></span>
+
+  <div class="paper-authors">
+    {{- range $i, $a := .Params.paper_authors -}}
+      {{- if $i }}, {{ end -}}
+      <a href="{{ (printf "authors/%s/%s/" (lower $a.letter) $a.slug) | relURL }}">{{ $a.given }} {{ $a.family }}</a>
+    {{- end -}}
+  </div>
+
+  <div class="paper-meta">
+    <div class="paper-meta-left">
+      <span class="venue-badge">
+        {{ $venueData := index site.Data.venues .Params.venue }}
+        <a href="{{ (printf "%s/" .Params.venue) | relURL }}">{{ with $venueData }}{{ .short }}{{ else }}{{ upper $.Params.venue }}{{ end }}</a>
+      </span>
+      <span class="year">{{ .Params.year }}</span>
+      {{ with .Params.pages }}<span class="pages">pp. {{ . }}</span>{{ end }}
+    </div>
+    <div class="paper-meta-ids">
+      {{ with .Params.doi }}<a href="https://doi.org/{{ . }}" class="paper-doi-link">doi:{{ . }}</a>{{ end }}
+      <a href="{{ .Permalink }}" class="paper-anthology-link">{{ .RelPermalink }}</a>
+    </div>
+  </div>
+
+  {{ with .Params.abstract }}
+  <div class="paper-abstract">
+    <h2>Abstract</h2>
+    <p>{{ . }}</p>
+  </div>
+  {{ end }}
+
+  <div class="paper-detail-links">
+    {{ with .Params.pdf_url }}<a href="{{ . }}">PDF</a>{{ end }}
+    {{ $venueDisplay := upper .Params.venue }}{{ with index site.Data.venues .Params.venue }}{{ $venueDisplay = .short }}{{ end }}
+    {{ with .Params.venue_url }}<a href="{{ . }}">{{ $venueDisplay }}</a>{{ end }}
+    {{ with .Params.openreview_url }}<a href="{{ . }}">OpenReview</a>{{ end }}
+    {{ with .Params.code_url }}<a href="{{ . }}">Code</a>{{ end }}
+    <a href="https://www.semanticscholar.org/search?q={{ .Title | urlquery }}" target="_blank" rel="noopener">Semantic Scholar</a>
+  </div>
+
+  <div class="paper-cite" data-pagefind-ignore>
+    <h2>Cite</h2>
+    {{/* Build author display string for text/markdown citations */}}
+    {{ $authors := .Params.paper_authors | default slice }}
+    {{ $numAuthors := len $authors }}
+    {{ $authorStr := "" }}
+    {{ if eq $numAuthors 0 }}
+      {{ $authorStr = "" }}
+    {{ else if eq $numAuthors 1 }}
+      {{ $authorStr = printf "%s." (index $authors 0).family }}
+    {{ else if eq $numAuthors 2 }}
+      {{ $authorStr = printf "%s and %s." (index $authors 0).family (index $authors 1).family }}
+    {{ else }}
+      {{ $authorStr = printf "%s et al." (index $authors 0).family }}
+    {{ end }}
+    {{ $doiSuffix := "" }}
+    {{ with .Params.doi }}{{ $doiSuffix = printf " doi:%s" . }}{{ end }}
+    {{ $textCite := printf "%s \"%s.\" %s, %s.%s" $authorStr .Title .Params.venue_name (string .Params.year) $doiSuffix }}
+    {{ $mdCite := printf "[%s \"%s.\" %s, %s.](%s)%s" $authorStr .Title .Params.venue_name (string .Params.year) .Permalink $doiSuffix }}
+
+    <h3>Text</h3>
+    <div class="citation-block">
+      <button class="copy-btn" data-clipboard-target="#cite-text-{{ .Params.bibtex_key }}">Copy</button>
+      <pre id="cite-text-{{ .Params.bibtex_key }}"><code>{{ $textCite }}</code></pre>
+    </div>
+
+    <h3>Markdown</h3>
+    <div class="citation-block">
+      <button class="copy-btn" data-clipboard-target="#cite-md-{{ .Params.bibtex_key }}">Copy</button>
+      <pre id="cite-md-{{ .Params.bibtex_key }}"><code>{{ $mdCite }}</code></pre>
+    </div>
+
+    <h3>BibTeX</h3>
+    <div class="citation-block">
+      <button class="copy-btn" data-clipboard-target="#bibtex-{{ .Params.bibtex_key }}">Copy</button>
+      {{ $isJournal := eq .Params.venue_type "journal" }}
+      {{ $entryType := cond $isJournal "article" "inproceedings" }}
+      {{ $venueField := cond $isJournal "journal" "booktitle" }}
+      <pre id="bibtex-{{ .Params.bibtex_key }}"><code>@{{ $entryType }}{{ "{" }}{{ .Params.bibtex_key }},
+  title     = {{ "{" }}{{ "{" }}{{ .Title | htmlUnescape }}{{ "}" }}{{ "}" }},
+  author    = {{ "{" }}{{ range $i, $a := .Params.paper_authors }}{{ if $i }} and {{ end }}{{ $a.family }}, {{ $a.given }}{{ end }}{{ "}" }},
+  {{ $venueField | printf "%-9s" }} = {{ "{" }}{{ .Params.venue_name }}{{ "}" }},
+  year      = {{ "{" }}{{ .Params.year }}{{ "}" }},{{ with .Params.pages }}
+  pages     = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with .Params.doi }}
+  doi       = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with .Params.volume }}
+  volume    = {{ "{" }}{{ . }}{{ "}" }},{{ end }}
+  url       = {{ "{" }}{{ .Permalink }}{{ "}" }}
+{{ "}" }}</code></pre>
+    </div>
+  </div>
+</article>
+{{ end }}

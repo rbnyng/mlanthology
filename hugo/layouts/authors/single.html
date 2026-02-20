@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{/* Individual author page — /authors/{letter}/{slug}/ */}}
+  <h1>{{ .Page.Title }}</h1>
+  <p>{{ .Params.paper_count }} publications</p>
+
+  <div class="paper-list">
+    {{ range .Params.paper_paths }}
+    {{ $paper := site.GetPage . }}
+    {{ if $paper }}
+    <div class="paper-entry">
+      {{ $venueData := index site.Data.venues $paper.Params.venue }}
+      <span class="venue-badge">{{ with $venueData }}{{ .short }}{{ else }}{{ upper $paper.Params.venue }}{{ end }}</span>
+      <span class="year">{{ $paper.Params.year }}</span>
+      <a href="{{ $paper.RelPermalink }}" class="paper-title">{{ $paper.Title }}</a>
+      <span class="paper-authors-inline">
+        {{ range $i, $a := $paper.Params.paper_authors }}{{ if $i }}, {{ end }}<a href="{{ (printf "authors/%s/%s/" (lower $a.letter) $a.slug) | relURL }}">{{ $a.given }} {{ $a.family }}</a>{{ end }}
+      </span>
+    </div>
+    {{ end }}
+    {{ end }}
+  </div>
+{{ end }}
