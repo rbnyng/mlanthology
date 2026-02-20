@@ -16,4 +16,4 @@ ML Anthology would not be possible without the following open data sources and p
 
 ML Anthology is open source under the Apache 2.0 license.
 
-Maintained by [Robin Young](https://github.com/rbnyng). Contact: first.last@cl.cam.ac.uk
+Maintained by [Robin Young](https://github.com/rbnyng). Contact: ry@mlanthology.org
