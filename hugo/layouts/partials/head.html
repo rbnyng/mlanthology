@@ -1,7 +1,5 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 {{ $description := .Site.Params.description }}
 {{ if .Params.abstract }}
@@ -95,22 +93,51 @@
 </script>
 {{ end }}
 
-<!-- KaTeX for math rendering (load before site CSS so our overrides take precedence) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-
 <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<!-- KaTeX for math rendering — lazy-loaded only when page contains math -->
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\[', right: '\\]', display: true},
-        {left: '\\(', right: '\\)', display: false}
-      ],
-      throwOnError: false
+  (function() {
+    // Detect math delimiters in the page content after DOM is ready
+    document.addEventListener("DOMContentLoaded", function() {
+      var body = document.body.textContent;
+      var hasMath = /\$\$[\s\S]+?\$\$/.test(body) ||
+                    /\$[^\s$]([^$]*[^\s$])?\$/.test(body) ||
+                    /\\\[[\s\S]+?\\\]/.test(body) ||
+                    /\\\([\s\S]+?\\\)/.test(body);
+      if (!hasMath) return;
+
+      // Load KaTeX CSS
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+      link.integrity = "sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV";
+      link.crossOrigin = "anonymous";
+      document.head.appendChild(link);
+
+      // Load KaTeX JS, then auto-render, then render
+      var script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+      script.integrity = "sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8";
+      script.crossOrigin = "anonymous";
+      script.onload = function() {
+        var ar = document.createElement("script");
+        ar.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js";
+        ar.integrity = "sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05";
+        ar.crossOrigin = "anonymous";
+        ar.onload = function() {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\[', right: '\\]', display: true},
+              {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false
+          });
+        };
+        document.head.appendChild(ar);
+      };
+      document.head.appendChild(script);
     });
-  });
+  })();
 </script>

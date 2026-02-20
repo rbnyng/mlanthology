@@ -1,6 +1,64 @@
-/* ML Anthology — Warm, typographic, scholarly */
+/* ML Anthology style */
 
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+/* Self hosted EB Garamond to save DNS/connection overhead */
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-400i.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-500i.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-700.woff2') format('woff2');
+}
+
+/* Self-hosted IBM Plex Mono for consistent monospace across platforms */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-700.woff2') format('woff2');
+}
 
 :root {
   --bg: #F5F0EB;
@@ -17,7 +75,7 @@
   --max-width: 1040px;
   --font: 'EB Garamond', Georgia, 'Times New Roman', serif;
   --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
+  --mono: 'IBM Plex Mono', "SF Mono", Menlo, monospace;
   --shadow-sm: 0 1px 3px rgba(45, 33, 24, 0.06);
   --shadow-md: 0 3px 12px rgba(45, 33, 24, 0.08);
 }
@@ -830,7 +888,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 6px;
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-family: var(--mono);
   font-size: 0.875rem;
   line-height: 1.6;
   color: var(--text-secondary);
