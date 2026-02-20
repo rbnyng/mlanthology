@@ -9,7 +9,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from adapters.common import normalize_title_case
-from scripts.page_builders import _fix_latex_braces
+from scripts.page_builders import _fix_latex_braces, _strip_bibtex_braces
 from scripts.titlecase import smart_title_case
 
 
@@ -305,3 +305,55 @@ class TestFixLatexBraces:
     def test_rm_in_math(self):
         result = _fix_latex_braces(r"$\rmE(3)$")
         assert r"\rm{E}" in result
+
+
+# ---------------------------------------------------------------------------
+# BibTeX brace stripping
+# ---------------------------------------------------------------------------
+
+class TestStripBibtexBraces:
+    def test_simple_case_protection(self):
+        assert _strip_bibtex_braces("{GPT-4} Is Great") == "GPT-4 Is Great"
+
+    def test_multiple_braced(self):
+        assert _strip_bibtex_braces("{BERT} and {RoBERTa}") == "BERT and RoBERTa"
+
+    def test_preserves_latex_command_args(self):
+        """Braces after \\mathcal, \\hat etc. must survive."""
+        s = r"$\mathcal{H}$ and $\hat{y}$"
+        assert _strip_bibtex_braces(s) == s
+
+    def test_preserves_emph_braces(self):
+        s = r"\emph{finite family}"
+        assert _strip_bibtex_braces(s) == s
+
+    def test_math_content_untouched(self):
+        """Everything inside $...$ must be left alone."""
+        s = r"$\mathcal{O}(\sqrt{T})$"
+        assert _strip_bibtex_braces(s) == s
+
+    def test_mixed_math_and_bibtex_braces(self):
+        s = r"The {BERT} model achieves $\mathcal{O}(n)$ complexity"
+        assert _strip_bibtex_braces(s) == r"The BERT model achieves $\mathcal{O}(n)$ complexity"
+
+    def test_nested_bibtex_braces_outer_only(self):
+        """Outer bare braces stripped; inner ones may need another pass."""
+        s = "{Some {Nested} Title}"
+        result = _strip_bibtex_braces(s)
+        # After one pass, outer braces stripped, inner remain
+        assert "Nested" in result
+
+    def test_no_braces_unchanged(self):
+        s = "A simple title"
+        assert _strip_bibtex_braces(s) == s
+
+    def test_real_abstract_mathcal(self):
+        """The Bressan 2025 COLT abstract that triggered the bug."""
+        s = (
+            r"For any hypothesis class $\mathcal{H}$, given a loss function "
+            r"(which quantifies the penalty for predicting $\hat{y}$ instead "
+            r"of the true label $y$) and a target loss threshold $z$"
+        )
+        result = _strip_bibtex_braces(s)
+        assert r"$\mathcal{H}$" in result
+        assert r"$\hat{y}$" in result

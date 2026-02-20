@@ -125,11 +125,13 @@
       script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
       script.integrity = "sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8";
       script.crossOrigin = "anonymous";
+      script.onerror = signalDone;
       script.onload = function() {
         var ar = document.createElement("script");
         ar.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js";
         ar.integrity = "sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05";
         ar.crossOrigin = "anonymous";
+        ar.onerror = signalDone;
         ar.onload = function() {
           renderMathInElement(document.body, {
             delimiters: [

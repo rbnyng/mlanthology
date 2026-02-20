@@ -48,6 +48,28 @@ def _fix_latex_braces(s: str) -> str:
     return re.sub(pattern, r"\\\1{\2}", s)
 
 
+def _strip_bibtex_braces(s: str) -> str:
+    """Strip BibTeX case-protection braces while preserving LaTeX command arguments.
+
+    Removes bare ``{content}`` braces (used by BibTeX to protect casing,
+    e.g. ``{GPT-4}``, ``{BERT}``) but preserves braces that serve as
+    LaTeX command arguments (e.g. ``\\mathcal{H}``, ``\\emph{text}``).
+    Content inside math delimiters (``$...$``) is left untouched.
+    """
+    # Process the string in segments: skip math-delimited regions.
+    parts = re.split(r"(\$[^$]+\$)", s)
+    for i, part in enumerate(parts):
+        if i % 2 == 1:
+            # Inside $...$  — leave alone
+            continue
+        # Outside math: strip {content} only when not preceded by a letter
+        # (i.e. not a LaTeX command argument like \mathcal{H}).
+        parts[i] = re.sub(
+            r"(?<![a-zA-Z])\{([^{}\\]*)\}", r"\1", part
+        )
+    return "".join(parts)
+
+
 def sanitize(s: str) -> str:
     """Collapse whitespace and strip control characters for YAML front matter."""
     if not s:
@@ -56,6 +78,7 @@ def sanitize(s: str) -> str:
     s = re.sub(r"[\n\t]+", " ", s)
     s = re.sub(r"\$\$(.+?)\$\$", r"$\1$", s)
     s = _fix_latex_braces(s)
+    s = _strip_bibtex_braces(s)
     return s
 
 
