@@ -9,7 +9,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from adapters.common import normalize_title_case
-from scripts.build_content import smart_title_case, _fix_latex_braces
+from scripts.page_builders import _fix_latex_braces
+from scripts.titlecase import smart_title_case
 
 
 # ---------------------------------------------------------------------------

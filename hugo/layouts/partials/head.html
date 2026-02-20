@@ -94,17 +94,23 @@
 {{ end }}
 
 <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
-<!-- KaTeX for math rendering — lazy-loaded only when page contains math -->
+<!-- KaTeX for math rendering — lazy-loaded only when page contains math.
+     Dispatches 'katex-done' event when rendering finishes (or immediately
+     if no math found) so latex-text.js can safely post-process. -->
 <script>
   (function() {
-    // Detect math delimiters in the page content after DOM is ready
+    function signalDone() {
+      window.__katexDone = true;
+      document.dispatchEvent(new Event('katex-done'));
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
       var body = document.body.textContent;
       var hasMath = /\$\$[\s\S]+?\$\$/.test(body) ||
                     /\$[^\s$]([^$]*[^\s$])?\$/.test(body) ||
                     /\\\[[\s\S]+?\\\]/.test(body) ||
                     /\\\([\s\S]+?\\\)/.test(body);
-      if (!hasMath) return;
+      if (!hasMath) { signalDone(); return; }
 
       // Load KaTeX CSS
       var link = document.createElement("link");
@@ -114,7 +120,7 @@
       link.crossOrigin = "anonymous";
       document.head.appendChild(link);
 
-      // Load KaTeX JS, then auto-render, then render
+      // Load KaTeX JS, then auto-render, then render, then signal done
       var script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
       script.integrity = "sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8";
@@ -134,6 +140,7 @@
             ],
             throwOnError: false
           });
+          signalDone();
         };
         document.head.appendChild(ar);
       };

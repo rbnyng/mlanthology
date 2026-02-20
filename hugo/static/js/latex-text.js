@@ -10,9 +10,11 @@
  * intentionally skipped — they contain valid LaTeX for copy-paste into
  * .tex files.
  *
- * Execution order: loaded as a regular <script> in <body> (after KaTeX
- * auto-render, which is a deferred script).  DOMContentLoaded handlers
- * fire in registration order, so KaTeX's handler always runs first.
+ * Execution order: KaTeX is lazy-loaded asynchronously (CSS → JS →
+ * auto-render).  head.html dispatches a 'katex-done' event once math
+ * rendering finishes (or immediately if no math is detected).  This
+ * script waits for that event before processing text-mode commands,
+ * ensuring that KaTeX has already consumed math delimiters and braces.
  */
 (function () {
   "use strict";
@@ -55,8 +57,9 @@
     /* Bare braces used for case-protection in BibTeX titles, e.g. {GPT-4}.
      * After all command transforms have run, any remaining {content} that
      * contains neither backslashes nor nested braces is just stripped.
-     * KaTeX output never contains literal { chars so this is safe. */
-    [/\{([^{}\\]*)\}/g,                function (_, c) { return c; }],
+     * The negative lookbehind excludes braces that are arguments to LaTeX
+     * commands (e.g. \mathcal{H}, \hat{y}) — those must survive for KaTeX. */
+    [/(?<![a-zA-Z])\{([^{}\\]*)\}/g,   function (_, c) { return c; }],
   ];
 
   function normalizeLatexHtml(html) {
@@ -74,19 +77,31 @@
     return s;
   }
 
-  function processElement(el) {
-    var before = el.innerHTML;
-    var after = normalizeLatexHtml(before);
-    if (after !== before) { el.innerHTML = after; }
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
+  function processElements() {
     /* Paper detail page: h1 title and abstract paragraph. */
     var detail = document.querySelectorAll('.paper-detail > h1, .paper-abstract p');
-    for (var i = 0; i < detail.length; i++) { processElement(detail[i]); }
+    for (var i = 0; i < detail.length; i++) {
+      var before = detail[i].innerHTML;
+      var after = normalizeLatexHtml(before);
+      if (after !== before) { detail[i].innerHTML = after; }
+    }
 
     /* Paper list items: venue-year pages and author pages. */
     var titles = document.querySelectorAll('.paper-title');
-    for (var j = 0; j < titles.length; j++) { processElement(titles[j]); }
-  });
+    for (var j = 0; j < titles.length; j++) {
+      var before = titles[j].innerHTML;
+      var after = normalizeLatexHtml(before);
+      if (after !== before) { titles[j].innerHTML = after; }
+    }
+  }
+
+  /* Wait for KaTeX to finish before processing.  head.html dispatches
+   * 'katex-done' after renderMathInElement completes (or immediately
+   * if no math was detected on the page). */
+  if (window.__katexDone) {
+    /* KaTeX already finished (event fired before this script loaded). */
+    document.addEventListener('DOMContentLoaded', processElements);
+  } else {
+    document.addEventListener('katex-done', processElements);
+  }
 }());
