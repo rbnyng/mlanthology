@@ -32,13 +32,6 @@ jobs:
       - name: Build search index
         run: npx pagefind --site hugo/public
 
-      - name: Upload preview artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: preview-site
-          path: hugo/public
-          retention-days: 5
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
