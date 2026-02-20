@@ -1,12 +1,14 @@
 # ML Anthology
 
-A unified proceedings platform for machine learning research.
+An anthology for machine learning research.
 
 ## What is this?
 
-ML Anthology indexes papers from major ML conferences and journals into a single browsable, searchable site with consistent metadata and human-readable citation keys.
+ML Anthology indexes papers from ML conferences and journals into a single browsable, searchable site with consistent metadata and human-readable citation keys.
 
-It exists because ML proceedings are fragmented across a dozen different sites with inconsistent interfaces, no unified search, and no persistent identifiers. NLP solved this years ago with [ACL Anthology](https://aclanthology.org). This is the equivalent for ML.
+It exists because ML proceedings are fragmented across a dozen different sites with inconsistent interfaces, no unified search, and no persistent identifiers. NLP solved this years ago with [ACL Anthology](https://aclanthology.org). This is the equivalent effort for machine learning. 
+
+Citing an ML paper currently usually means something like getting `10.5555/3295222.3295349` (Vaswani et al.), `NEURIPS2018_5a4be1fa` (this is the NTK paper, but you'd never know), `pmlr-v151-truong22a`, or `7780459` (Resnet, believe it or not) — equally opaque strings, none of which tell you what paper you're looking at. For NeurIPS you have to download a .bib file from each one, open it, and hope you remember which download was which. It sucks.
 
 ## Features
 
@@ -15,7 +17,7 @@ It exists because ML proceedings are fragmented across a dozen different sites w
 - **Citation export** — BibTeX, plain text, and Markdown with copy buttons
 - **Full-text search** — via Pagefind, entirely client-side
 - **Author index** — many authors with per-author publication pages
-- **Dark and light mode** — follows system preference
+- **Dark and light mode** — follows system preference, looks nice
 - **Static site** — fast, no backend, trivially cacheable
 
 ## URL scheme
@@ -23,13 +25,15 @@ It exists because ML proceedings are fragmented across a dozen different sites w
 ```
 mlanthology.org/icml/                                     → latest ICML proceedings
 mlanthology.org/icml/2017/                                → ICML 2017 paper listing
-mlanthology.org/icml/2017/arora2017icml-generalization    → specific paper
+mlanthology.org/icml/2017/arora2017icml-generalization    → specific paper at ICML 2017
 mlanthology.org/authors/                                  → author index
-mlanthology.org/authors/a/                                → authors starting with a
-mlanthology.org/authors/a/arora-sanjeev/                  → author page for arora
+mlanthology.org/authors/a/                                → authors by last name starting with a
+mlanthology.org/authors/a/arora-sanjeev/                  → author page for sanjeev arora
 ```
 
-Every prefix is a valid page, you can feasibly construct the permalink by guessing if you know the title, year, author, and venue.
+Every prefix is a valid page, you can feasibly construct the permalink by guessing if you know the title, year, author, and venue. 
+
+ResNet, for example, is `he2016cvpr-deep` because it appeared at CVPR in 2016, the first author was Kaiming He, and the first word of the title was "Deep".
 
 ## BibTeX key format
 
@@ -61,4 +65,4 @@ ML Anthology is built on top of open data from:
 
 Apache 2.0. See [LICENSE](LICENSE).
 
-Paper metadata is aggregated from the sources above under their respective licenses. ML Anthology does not host PDFs (yet) and all papers link to their original sources.
+Paper metadata is aggregated from the sources above under their respective licenses. ML Anthology does not host PDFs (yet) and papers link to their original sources.
