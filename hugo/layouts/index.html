@@ -1,0 +1,98 @@
+{{ define "main" }}
+
+{{/* Collect venue sections and pre-compute display data in one pass.
+     paper_count is stored in each venue's _index.md front matter by the
+     build script, so no .RegularPagesRecursive tree traversal is needed. */}}
+{{ $conferences := slice }}
+{{ $journals    := slice }}
+{{ $workshops   := slice }}
+{{ $totalPapers := 0 }}
+
+{{ range .Site.Sections }}
+  {{ if eq .Type "venue" }}
+    {{ $slug    := .Params.venue_slug }}
+    {{ $venue   := index site.Data.venues $slug }}
+    {{ $count   := .Params.paper_count | int }}
+    {{ if gt $count 0 }}
+      {{ $totalPapers = add $totalPapers $count }}
+      {{ $years := slice }}
+      {{ range .Sections }}
+        {{ with .Params.year }}
+          {{ $years = $years | append . }}
+        {{ end }}
+      {{ end }}
+      {{ $years = sort $years "value" "desc" }}
+      {{ $entry := dict "page" . "venue" $venue "slug" $slug "count" $count "years" $years }}
+      {{ if and $venue (eq $venue.type "conference") }}
+        {{ $conferences = $conferences | append $entry }}
+      {{ else if and $venue (eq $venue.type "journal") }}
+        {{ $journals = $journals | append $entry }}
+      {{ else if $slug }}
+        {{ $workshops = $workshops | append $entry }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<section class="hero">
+  <h1>ML Anthology</h1>
+  <p class="subtitle">A unified proceedings platform for machine learning research.</p>
+  <p class="paper-count">Currently indexing <strong>{{ $totalPapers }}</strong> papers across <strong>{{ add (len $conferences) (add (len $journals) (len $workshops)) }}</strong> venues.</p>
+  <div class="search-box-home">
+    <form action="{{ "search/" | relURL }}" method="get">
+      <input type="text" name="q" class="input-search" placeholder="Search papers, authors, venues..." aria-label="Search">
+    </form>
+  </div>
+</section>
+
+<section class="venues-grid">
+  <h2>Conferences</h2>
+  <div class="venue-cards">
+    {{ range sort $conferences "count" "desc" }}
+    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}">
+      <a href="{{ .page.RelPermalink }}">
+        <h3>{{ .venue.short }}</h3>
+        <p class="venue-full-name">{{ .venue.name }}</p>
+        <p class="venue-count">{{ .count }} papers</p>
+        <p class="venue-years">{{ if eq (len .years) 1 }}{{ index .years 0 }}{{ else }}{{ index .years (sub (len .years) 1) }}–{{ index .years 0 }}{{ end }}</p>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+
+  <h2>Journals</h2>
+  <div class="venue-cards">
+    {{ range sort $journals "count" "desc" }}
+    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}">
+      <a href="{{ .page.RelPermalink }}">
+        <h3>{{ .venue.short }}</h3>
+        <p class="venue-full-name">{{ .venue.name }}</p>
+        <p class="venue-count">{{ .count }} papers</p>
+        <p class="venue-years">{{ if eq (len .years) 1 }}{{ index .years 0 }}{{ else }}{{ index .years (sub (len .years) 1) }}–{{ index .years 0 }}{{ end }}</p>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+
+  {{ if gt (len $workshops) 0 }}
+  {{ $workshopPapers := 0 }}
+  {{ range $workshops }}{{ $workshopPapers = add $workshopPapers .count }}{{ end }}
+  <h2>Workshops</h2>
+  <details class="workshops-section">
+    <summary>{{ len $workshops }} workshops ({{ $workshopPapers }} papers) — click to expand</summary>
+    <div class="venue-cards" style="margin-top: 1rem;">
+      {{ range sort $workshops "count" "desc" }}
+      <div class="venue-card venue-card-workshop">
+        <a href="{{ .page.RelPermalink }}">
+          <h3>{{ with .venue }}{{ .short }}{{ else }}{{ upper .slug }}{{ end }}</h3>
+          <p class="venue-full-name">{{ .page.Title }}</p>
+          <p class="venue-count">{{ .count }} papers</p>
+          <p class="venue-years">{{ if eq (len .years) 1 }}{{ index .years 0 }}{{ else }}{{ index .years (sub (len .years) 1) }}–{{ index .years 0 }}{{ end }}</p>
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </details>
+  {{ end }}
+</section>
+{{ end }}

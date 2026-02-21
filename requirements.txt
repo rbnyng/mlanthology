@@ -1,0 +1,4 @@
+pyyaml>=6.0
+requests>=2.28
+openreview-py>=1.40
+unidecode>=1.3

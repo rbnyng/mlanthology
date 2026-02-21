@@ -1,0 +1,997 @@
+/* ML Anthology style */
+
+/* Self hosted EB Garamond to save DNS/connection overhead */
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-400i.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-500i.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/eb-garamond-700.woff2') format('woff2');
+}
+
+/* Self-hosted IBM Plex Mono for consistent monospace across platforms */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-700.woff2') format('woff2');
+}
+
+:root {
+  --bg: #F5F0EB;
+  --bg-surface: #FFFBF5;
+  --text: #2D2118;
+  --text-secondary: #786A5E;
+  --accent: #8B3A3A;
+  --accent-hover: #6B2D2D;
+  --border: #DDD5CC;
+  --card-bg: #FFFBF5;
+  --badge-bg: #EBDDD1;
+  --badge-text: #7C2D36;
+  --success: #5A7A5A;
+  --max-width: 1040px;
+  --font: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', "SF Mono", Menlo, monospace;
+  --shadow-sm: 0 1px 3px rgba(45, 33, 24, 0.06);
+  --shadow-md: 0 3px 12px rgba(45, 33, 24, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1C1814;
+    --bg-surface: #262019;
+    --text: #E8E0D8;
+    --text-secondary: #A89888;
+    --accent: #D4917A;
+    --accent-hover: #E0A898;
+    --border: #3D3530;
+    --card-bg: #262019;
+    --badge-bg: #3D3530;
+    --badge-text: #D4917A;
+    --success: #7A9A7A;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 3px 12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  background: var(--bg);
+}
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.site-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.site-title:hover { text-decoration: none; color: var(--accent); }
+.site-nav a {
+  margin-left: 1.75rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+.site-nav a:hover, .site-nav a.active { color: var(--accent); text-decoration: none; }
+
+/* Hero — title-page treatment */
+.hero {
+  text-align: center;
+  padding: 5rem 0 3.5rem;
+  border-bottom: none;
+  margin-bottom: 0;
+  position: relative;
+}
+.hero::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 2px;
+  background: var(--accent);
+  margin: 2.5rem auto 0;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+.paper-count {
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+  font-size: 1rem;
+}
+/* Shared text input style */
+.input-search {
+  width: 100%;
+  padding: 0.75rem 1.15rem;
+  font-family: var(--font);
+  font-size: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  background: var(--bg-surface);
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 58, 58, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  .input-search:focus {
+    box-shadow: 0 0 0 3px rgba(212, 145, 122, 0.15);
+  }
+}
+.input-search::placeholder { color: var(--text-secondary); opacity: 0.7; }
+
+.search-box-home {
+  margin-top: 2rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Venue cards */
+.venues-grid { padding: 2.5rem 0; }
+.venues-grid h2 {
+  text-align: center;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  padding-top: 1.5rem;
+  position: relative;
+}
+.venues-grid h2::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--border);
+  margin: 0 auto 0.75rem;
+}
+.venue-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.venue-card {
+  border: none;
+  border-left: 3px solid var(--accent);
+  border-radius: 0;
+  padding: 0.75rem 1.25rem;
+  background: none;
+  transition: border-color 0.2s;
+}
+.venue-card:hover {
+  border-left-color: var(--accent-hover);
+}
+.venue-card a { color: inherit; text-decoration: none; display: block; }
+.venue-card h3 {
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.venue-full-name {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+.venue-count {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+.venue-years {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Minor venues (< 500 papers) — muted accent */
+.venue-card-minor {
+  border-left-color: var(--border);
+}
+.venue-card-minor:hover {
+  border-left-color: var(--text-secondary);
+}
+.venue-card-minor h3 {
+  color: var(--text-secondary);
+}
+
+/* Workshop cards */
+.venue-card-workshop {
+  border-left-style: dashed;
+}
+.venue-card-workshop h3 { font-size: 1.05rem; }
+
+/* Collapsible workshops section */
+.workshops-section {
+  margin-bottom: 2rem;
+}
+.workshops-section summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+}
+.workshops-section summary:hover {
+  color: var(--accent);
+}
+
+/* Venue page layout */
+.venue-page {
+  padding: 2rem 0;
+}
+.venue-page h1 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.25rem;
+}
+
+/* Venue-year page */
+.venue-year-count {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+/* Paper list */
+.paper-list { margin-top: 1rem; }
+.paper-entry {
+  padding: 1rem 0;
+  border-bottom: none;
+}
+.paper-entry + .paper-entry {
+  border-top: 1px dotted var(--border);
+}
+.paper-title {
+  font-weight: 600;
+  line-height: 1.4;
+}
+.paper-authors-inline {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+.paper-entry-links {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 0;
+  align-items: baseline;
+}
+.paper-entry-links a, .paper-entry-links button {
+  font-size: 0.88rem;
+  font-family: var(--font);
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.paper-entry-links a:hover, .paper-entry-links button:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+.paper-entry-links > * + *::before {
+  content: "\b7";
+  margin: 0 0.5rem;
+  color: var(--text-secondary);
+  display: inline-block;
+}
+
+/* Badges */
+.venue-badge {
+  display: inline-block;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  margin-right: 0.5rem;
+}
+.venue-badge a { color: var(--badge-text); }
+.year {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-right: 0.75rem;
+}
+.pages {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Paper detail */
+.paper-detail { padding: 2.5rem 0; }
+.paper-detail h1 {
+  font-size: 1.85rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.paper-authors {
+  margin: 1.25rem 0;
+  font-size: 1.05rem;
+}
+.paper-meta {
+  margin: 0.75rem 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.paper-meta-ids {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-size: 0.82rem;
+}
+.paper-meta-ids > * + *::before {
+  content: "\b7";
+  margin: 0 0.5rem;
+  color: var(--text-secondary);
+  display: inline-block;
+}
+.paper-doi-link {
+  color: var(--text-secondary);
+}
+.paper-doi-link:hover {
+  color: var(--accent);
+}
+.paper-anthology-link {
+  color: var(--text-secondary);
+}
+.paper-anthology-link:hover {
+  color: var(--accent);
+}
+.paper-abstract {
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.paper-abstract h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+.paper-abstract p {
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+.paper-abstract .abstract-unavailable {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Paper detail links — interpunct-separated, editorial style */
+.paper-detail-links {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  align-items: baseline;
+  font-size: 1rem;
+}
+.paper-detail-links a {
+  color: var(--accent);
+  transition: color 0.2s;
+}
+.paper-detail-links a:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+.paper-detail-links > * + *::before {
+  content: "\b7";
+  margin: 0 0.65rem;
+  color: var(--text-secondary);
+  display: inline-block;
+}
+
+/* Buttons (citation copy) */
+.btn-cite { background: var(--accent); color: #FFFBF5; border: none; display: inline-block; padding: 0.5rem 1rem; border-radius: 5px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; transition: background 0.2s; }
+.btn-cite:hover { background: var(--accent-hover); color: #FFFBF5; text-decoration: none; }
+
+/* Anthology URL (inline in paper-meta) */
+
+/* Citation block */
+.paper-cite { margin-top: 2.5rem; }
+.paper-cite h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.cite-formats {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.copy-btn-alt {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.copy-btn-alt:hover { border-color: var(--accent); color: var(--accent); }
+.copy-btn-alt.copied { background: var(--success); color: #FFFBF5; border-color: var(--success); }
+.citation-block {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+.citation-block pre {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+.copy-btn {
+  background: var(--accent);
+  color: #FFFBF5;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  position: absolute; top: 0.75rem; right: 0.75rem;
+}
+.copy-btn:hover { background: var(--accent-hover); color: #FFFBF5; }
+.copy-btn.copied { background: var(--success); color: #FFFBF5; }
+/* Inline cite — text color flash only */
+.copy-btn-inline.copied { color: var(--success); }
+
+/* Dark mode: use dark text on light button background */
+@media (prefers-color-scheme: dark) {
+  .copy-btn, .btn-cite {
+    background: var(--accent);
+    color: #1C1814;
+  }
+  .copy-btn:hover, .btn-cite:hover {
+    background: var(--accent-hover);
+    color: #1C1814;
+  }
+  .copy-btn.copied {
+    background: var(--success);
+    color: #1C1814;
+  }
+}
+
+/* Venue-year heading */
+.venue-year-heading {
+  font-size: 1.85rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.15rem;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+}
+
+/* Year selector — horizontal timeline */
+.year-selector-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  margin: 1.25rem 0 0.75rem;
+}
+.year-selector-wrapper.can-scroll-left::before,
+.year-selector-wrapper.can-scroll-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.5rem;
+  pointer-events: none;
+  z-index: 2;
+}
+.year-selector-wrapper.can-scroll-left::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+.year-selector-wrapper.can-scroll-right::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+.year-selector-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  flex-shrink: 0;
+  border: none;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 3;
+  padding: 0;
+  transition: color 0.2s;
+}
+.year-selector-arrow:hover {
+  color: var(--accent);
+}
+.year-selector-arrow[hidden] {
+  display: none;
+}
+.year-selector {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.25rem 0 0.5rem;
+  /* Track line as background so it spans the full scrollable width */
+  background: linear-gradient(
+    to bottom,
+    transparent 2.05rem,
+    var(--border) 2.05rem,
+    var(--border) calc(2.05rem + 2px),
+    transparent calc(2.05rem + 2px)
+  );
+}
+.year-selector::-webkit-scrollbar {
+  display: none;
+}
+.year-selector-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 1.1rem;
+  border: none;
+  border-radius: 0;
+  background: none;
+  font-family: var(--font);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  position: relative;
+}
+/* The dot node */
+.year-selector-item::after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.year-selector-item:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.year-selector-item:hover::after {
+  border-color: var(--accent);
+  transform: scale(1.2);
+}
+/* Active / current year */
+.year-selector-current {
+  color: var(--accent);
+  font-weight: 600;
+}
+.year-selector-current::after {
+  background: var(--accent);
+  border-color: var(--accent);
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 0 3px rgba(139, 58, 58, 0.15);
+}
+@media (prefers-color-scheme: dark) {
+  .year-selector-current::after {
+    box-shadow: 0 0 0 3px rgba(212, 145, 122, 0.2);
+  }
+}
+
+/* Venue year index list */
+.year-list {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.year-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: border-color 0.2s;
+}
+.year-entry:hover {
+  border-color: var(--accent);
+}
+.year-entry a {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--accent);
+}
+.year-entry .paper-count {
+  margin-top: 0;
+}
+
+/* Author list */
+.author-count-total, .author-count-filtered {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.author-filter-box {
+  margin: 1.5rem 0;
+  max-width: 600px;
+}
+
+
+.letter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  margin: 2rem 0 2.5rem;
+  justify-content: center;
+}
+
+.letter-link {
+  font-family: var(--font);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--accent);
+  transition: color 0.15s;
+}
+
+.letter-link:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.letter-link.active {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.letter-link.disabled {
+  color: var(--text-secondary);
+  opacity: 0.35;
+  cursor: default;
+}
+
+.author-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 2rem;
+}
+
+.letter-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--accent);
+}
+
+.letter-count {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.author-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.author-entry {
+  display: flex;
+  align-items: baseline;
+  padding: 0.5rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.author-entry:hover {
+  border-color: var(--accent);
+}
+
+.author-entry a {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pub-count {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Search page */
+.search-page { padding: 2.5rem 0; }
+.search-page h1 { margin-bottom: 1.25rem; }
+.search-page .input-search { margin-bottom: 1.5rem; }
+.search-count {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+#search-results .paper-entry { padding: 1rem 0; }
+#search-results .paper-entry + .paper-entry { border-top: 1px dotted var(--border); }
+.load-more-btn {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.55rem 1.75rem;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  color: var(--accent);
+  background: none;
+  border: 1.5px solid var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.load-more-btn:hover {
+  background: var(--accent);
+  color: var(--bg-surface);
+}
+
+/* Page content (about, etc.) */
+.page-content h1 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.page-content p {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+/* 404 page */
+.page-404 {
+  text-align: center;
+  padding: 5rem 0 4rem;
+}
+.page-404 h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+#easter-egg-message p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+#easter-egg-message .citation-needed {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+#easter-egg-message .bibtex-block {
+  display: inline-block;
+  text-align: left;
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  white-space: pre;
+}
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+  margin-top: 4rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.site-footer p { margin-top: 0.3rem; }
+.site-footer a { color: var(--text-secondary); text-decoration: underline; }
+.site-footer a:hover { color: var(--accent); }
+
+/* Responsive — tablet */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.2rem; }
+  .author-list-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+/* Responsive — mobile */
+@media (max-width: 640px) {
+  .hero { padding: 3.5rem 0 2.5rem; }
+  .hero h1 { font-size: 1.85rem; }
+  .subtitle { font-size: 1.05rem; }
+  .venue-cards { grid-template-columns: 1fr; }
+  .author-list-grid { grid-template-columns: 1fr; }
+  .letter-nav { gap: 0.3rem; padding: 0.75rem; }
+  .letter-link { width: 1.75rem; height: 1.75rem; font-size: 0.85rem; }
+  .site-header .container { flex-direction: column; gap: 0.5rem; }
+  .site-nav { display: flex; gap: 0.25rem; }
+  .site-nav a { margin-left: 0; padding: 0.35rem 0.6rem; }
+  .paper-detail h1 { font-size: 1.5rem; }
+  .paper-abstract { padding: 1.25rem 0; }
+  .container { padding: 0 1.25rem; }
+}
+
+/* Touch targets — ensure minimum 44px tap areas */
+@media (pointer: coarse) {
+  .paper-entry-links a, .paper-entry-links button, .paper-detail-links a { padding: 0.4rem 0.5rem; min-height: 44px; display: inline-flex; align-items: center; }
+  .copy-btn, .copy-btn-inline, .copy-btn-alt { padding: 0.45rem 0.85rem; min-height: 44px; }
+  .site-nav a { padding: 0.4rem 0.5rem; }
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .year-selector-item:hover::after {
+    transform: none;
+  }
+}
+
+/* Inline small-caps — used by latex-text.js for \textsc{} and {\sc } */
+.lsc {
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+/* Inline code (from \texttt{}) — harmonize monospace sizing with EB Garamond */
+.paper-detail > h1 code,
+.paper-abstract code,
+.paper-title code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+/* KaTeX math typesetting harmonization */
+/* Computer Modern (KaTeX default) has different metrics than EB Garamond,
+   so we adjust sizing and spacing for better visual harmony */
+.katex {
+  font-size: 1.05em;
+  line-height: inherit;
+}
+
+/* Inline math: fine-tune baseline alignment with EB Garamond */
+p .katex, .paper-abstract .katex {
+  font-size: 1.03em;
+  vertical-align: -0.08em;
+}
+
+/* Display math (block equations) */
+.katex-display {
+  margin: 1.8em 0;
+  padding: 0.5em 0;
+  font-size: 1.08em;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Make KaTeX inherit the parent element's color so it respects the site
+   theme in both light and dark mode, inside links, titles, etc.
+   Setting color on the structural containers lets all descendants inherit
+   naturally while preserving any explicit \color{} commands in formulas. */
+.katex,
+.katex .katex-html,
+.katex .base {
+  color: inherit !important;
+}

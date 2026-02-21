@@ -1,0 +1,37 @@
+name: 'Setup Build Environment'
+description: 'Install Python, pip deps, Hugo, and Node.js'
+
+inputs:
+  python-version:
+    description: 'Python version'
+    default: '3.11'
+  hugo-version:
+    description: 'Hugo version'
+    default: '0.155.3'
+  node-version:
+    description: 'Node.js version'
+    default: '20'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      shell: bash
+      run: pip install -q -r requirements.txt
+
+    - name: Set up Hugo
+      uses: peaceiris/actions-hugo@v3
+      with:
+        hugo-version: ${{ inputs.hugo-version }}
+        extended: true
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}

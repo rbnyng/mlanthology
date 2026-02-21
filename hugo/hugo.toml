@@ -1,0 +1,34 @@
+baseURL = "https://mlanthology.org/"
+languageCode = "en-us"
+title = "ML Anthology"
+
+enableRobotsTXT = true
+
+[params]
+  description = "A unified proceedings platform for machine learning research"
+  totalPapers = 0  # updated by build script
+
+[taxonomies]
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menu]
+  [[menu.main]]
+    name = "Authors"
+    url = "/authors/"
+    weight = 2
+  [[menu.main]]
+    name = "Search"
+    url = "/search/"
+    weight = 3
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 4

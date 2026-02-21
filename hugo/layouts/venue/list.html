@@ -1,0 +1,69 @@
+{{ define "main" }}
+
+{{ if .Params.year }}
+  {{/* This is a venue-year page like /icml/2024/ */}}
+  {{ $venue := index site.Data.venues .Params.venue_slug }}
+  {{ $venueShort := "" }}
+  {{ with $venue }}{{ $venueShort = .short }}{{ else }}{{ $venueShort = ($.Params.venue_slug | upper) }}{{ end }}
+  <div class="venue-page">
+
+  <h1 class="venue-year-heading">{{ $venueShort }} {{ .Params.year }}</h1>
+
+  {{/* Year selector — iterate sibling sections directly; no GetPage needed
+       since we already have the page objects from .Parent.Sections. */}}
+  {{ $siblings := .Parent.Sections }}
+  {{ if gt (len $siblings) 1 }}
+  <div class="year-selector-wrapper">
+    <button class="year-selector-arrow year-selector-arrow-left" aria-label="Scroll timeline left" hidden>&lsaquo;</button>
+    <nav class="year-selector" aria-label="Year selection">
+      {{ range ($siblings.ByParam "year").Reverse }}
+        {{ if eq .Params.year $.Params.year }}
+          <span class="year-selector-item year-selector-current">{{ .Params.year }}</span>
+        {{ else }}
+          <a href="{{ .RelPermalink }}" class="year-selector-item">{{ .Params.year }}</a>
+        {{ end }}
+      {{ end }}
+    </nav>
+    <button class="year-selector-arrow year-selector-arrow-right" aria-label="Scroll timeline right" hidden>&rsaquo;</button>
+  </div>
+  {{ end }}
+
+  <p class="venue-year-count">{{ len .Pages }} papers</p>
+
+  <div class="paper-list">
+    {{ range sort .Pages ".Title" "asc" }}
+    <div class="paper-entry">
+      <a href="{{ .RelPermalink }}" class="paper-title">{{ .Title }}</a>
+      <span class="paper-authors-inline">
+        {{ range $i, $a := .Params.paper_authors }}{{ if $i }}, {{ end }}{{ $a.given }} {{ $a.family }}{{ end }}
+      </span>
+      <div class="paper-entry-links">
+        {{ with .Params.pdf_url }}<a href="{{ . }}" class="link-pdf">PDF</a>{{ end }}
+        {{ with .Params.openreview_url }}<a href="{{ . }}" class="link-openreview">OpenReview</a>{{ end }}
+        {{ with .Params.code_url }}<a href="{{ . }}" class="link-code">Code</a>{{ end }}
+        {{ $isJournal := eq .Params.venue_type "journal" }}{{ $entryType := cond $isJournal "article" "inproceedings" }}{{ $venueField := cond $isJournal "journal" "booktitle" }}<button class="copy-btn-inline" data-bibtex-key="{{ .Params.bibtex_key }}" data-bibtex="@{{ $entryType }}{{ "{" }}{{ .Params.bibtex_key }}, title={{ "{" }}{{ "{" }}{{ .Title }}{{ "}" }}{{ "}" }}, author={{ "{" }}{{ range $i, $a := .Params.paper_authors }}{{ if $i }} and {{ end }}{{ $a.family }}, {{ $a.given }}{{ end }}{{ "}" }}, {{ $venueField }}={{ "{" }}{{ .Params.venue_name }}{{ "}" }}, year={{ "{" }}{{ .Params.year }}{{ "}" }}{{ "}" }}">Cite</button>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  </div>
+
+{{ else if .Params.venue_slug }}
+  {{/* Venue index — redirect to the latest year */}}
+  {{ $latestSection := index ((.Sections.ByParam "year").Reverse) 0 }}
+  {{ if $latestSection }}
+    <script>window.location.replace("{{ $latestSection.RelPermalink }}");</script>
+    <div class="venue-page">
+      <p>Redirecting to <a href="{{ $latestSection.RelPermalink }}">{{ $.Title }} {{ $latestSection.Params.year }}</a>&hellip;</p>
+    </div>
+  {{ else }}
+    {{ $venue := index site.Data.venues .Params.venue_slug }}
+    <div class="venue-page">
+      <h1>{{ with $venue }}{{ .name }} ({{ .short }}){{ else }}{{ $.Title }}{{ end }}</h1>
+      <p>No proceedings available yet.</p>
+    </div>
+  {{ end }}
+
+{{ end }}
+
+{{ end }}

@@ -1,0 +1,217 @@
+# Canonical venue metadata — single source of truth.
+# Referenced in templates via .Site.Data.venues.<slug>
+
+icml:
+  short: "ICML"
+  name: "International Conference on Machine Learning"
+  type: conference
+
+neurips:
+  short: "NeurIPS"
+  name: "Neural Information Processing Systems"
+  type: conference
+
+iclr:
+  short: "ICLR"
+  name: "International Conference on Learning Representations"
+  type: conference
+
+cvpr:
+  short: "CVPR"
+  name: "Conference on Computer Vision and Pattern Recognition"
+  type: conference
+
+iclrw:
+  short: "ICLRW"
+  name: "International Conference on Learning Representations Workshops"
+  type: workshop
+
+neuripsw:
+  short: "NeurIPSW"
+  name: "Neural Information Processing Systems Workshops"
+  type: workshop
+
+icmlw:
+  short: "ICMLW"
+  name: "International Conference on Machine Learning Workshops"
+  type: workshop
+
+cvprw:
+  short: "CVPRW"
+  name: "Conference on Computer Vision and Pattern Recognition Workshops"
+  type: workshop
+
+iccv:
+  short: "ICCV"
+  name: "International Conference on Computer Vision"
+  type: conference
+
+iccvw:
+  short: "ICCVW"
+  name: "International Conference on Computer Vision Workshops"
+  type: workshop
+
+eccv:
+  short: "ECCV"
+  name: "European Conference on Computer Vision"
+  type: conference
+
+eccvw:
+  short: "ECCVW"
+  name: "European Conference on Computer Vision Workshops"
+  type: workshop
+
+wacv:
+  short: "WACV"
+  name: "Winter Conference on Applications of Computer Vision"
+  type: conference
+
+wacvw:
+  short: "WACVW"
+  name: "Winter Conference on Applications of Computer Vision Workshops"
+  type: workshop
+
+aistats:
+  short: "AISTATS"
+  name: "Artificial Intelligence and Statistics"
+  type: conference
+
+colt:
+  short: "COLT"
+  name: "Conference on Learning Theory"
+  type: conference
+
+uai:
+  short: "UAI"
+  name: "Uncertainty in Artificial Intelligence"
+  type: conference
+
+corl:
+  short: "CoRL"
+  name: "Conference on Robot Learning"
+  type: conference
+
+aaai:
+  short: "AAAI"
+  name: "AAAI Conference on Artificial Intelligence"
+  type: conference
+
+ijcai:
+  short: "IJCAI"
+  name: "International Joint Conference on Artificial Intelligence"
+  type: conference
+
+midl:
+  short: "MIDL"
+  name: "Medical Imaging with Deep Learning"
+  type: conference
+
+alt:
+  short: "ALT"
+  name: "Algorithmic Learning Theory"
+  type: conference
+
+acml:
+  short: "ACML"
+  name: "Asian Conference on Machine Learning"
+  type: conference
+
+ecmlpkdd:
+  short: "ECML-PKDD"
+  name: "European Conference on Machine Learning"
+  type: conference
+
+cpal:
+  short: "CPAL"
+  name: "Conference on Parsimony and Learning"
+  type: conference
+
+mlhc:
+  short: "MLHC"
+  name: "Machine Learning for Healthcare"
+  type: conference
+
+l4dc:
+  short: "L4DC"
+  name: "Learning for Dynamics and Control"
+  type: conference
+
+clear:
+  short: "CLeaR"
+  name: "Causal Learning and Reasoning"
+  type: conference
+
+automl:
+  short: "AutoML"
+  name: "International Conference on Automated Machine Learning"
+  type: conference
+
+chil:
+  short: "CHIL"
+  name: "Conference on Health, Inference, and Learning"
+  type: conference
+
+pgm:
+  short: "PGM"
+  name: "International Conference on Probabilistic Graphical Models"
+  type: conference
+
+log:
+  short: "LoG"
+  name: "Learning on Graphs Conference"
+  type: conference
+
+collas:
+  short: "CoLLAs"
+  name: "Conference on Lifelong Learning Agents"
+  type: conference
+
+isipta:
+  short: "ISIPTA"
+  name: "International Symposium on Imprecise Probabilities"
+  type: conference
+
+jair:
+  short: "JAIR"
+  name: "Journal of Artificial Intelligence Research"
+  type: journal
+
+jmlr:
+  short: "JMLR"
+  name: "Journal of Machine Learning Research"
+  type: journal
+
+mlj:
+  short: "MLJ"
+  name: "Machine Learning"
+  type: journal
+
+neco:
+  short: "NeCo"
+  name: "Neural Computation"
+  type: journal
+
+distill:
+  short: "Distill"
+  name: "Distill"
+  type: journal
+
+ftml:
+  short: "FnTML"
+  name: "Foundations and Trends in Machine Learning"
+  type: journal
+
+tmlr:
+  short: "TMLR"
+  name: "Transactions on Machine Learning Research"
+  type: journal
+
+mloss:
+  short: "MLOSS"
+  name: "Machine Learning Open Source Software"
+  type: journal
+
+dmlr:
+  short: "DMLR"
+  name: "Data-centric Machine Learning Research"
+  type: journal
