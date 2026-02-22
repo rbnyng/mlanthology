@@ -7,7 +7,8 @@ By default only processes IEEE DOIs (10.1109/) in legacy files, and IEEE
 papers-file venues (CVPR, ICCV, WACV, workshops).  Use --all-venues to
 process every papers file regardless of DOI prefix or venue.
 
-OpenAlex supports batch DOI lookups (up to 50 per request) with no daily cap.
+OpenAlex uses credit-based billing: list/filter queries cost 1 credit,
+search queries cost 10 credits.  Free API keys get 10,000 credits/day ($1).
 
 Usage::
 
@@ -44,7 +45,14 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from adapters.common import read_venue_json, write_venue_json
-from adapters.openalex import _get_api_key, fetch_metadata_by_doi
+from adapters.openalex import (
+    CREDIT_COST_LIST,
+    CREDIT_COST_SEARCH,
+    _get_api_key,
+    check_rate_limit,
+    fetch_metadata_by_doi,
+    fetch_metadata_by_title,
+)
 from scripts.utils import LEGACY_DIR, PAPERS_DIR, read_legacy, write_legacy
 
 logger = logging.getLogger(__name__)
@@ -173,6 +181,53 @@ def _report_dry_run(meta: dict[str, dict], n_candidates: int, *, oa_pdf: bool) -
 
 
 
+def _title_search_candidates(papers: list[dict]) -> list[int]:
+    """Return indices of papers missing abstract and having no DOI."""
+    return [
+        i for i, p in enumerate(papers)
+        if not p.get("abstract", "").strip()
+        and not p.get("doi", "").strip()
+        and p.get("title", "").strip()
+    ]
+
+
+def _apply_title_metadata(
+    papers: list[dict],
+    meta: dict[int, dict],
+    candidate_indices: list[int],
+) -> tuple[int, int, int, int]:
+    """Apply title-search metadata to papers in-place.
+
+    Returns (papers_changed, abstracts_added, dois_added, pdfs_added).
+    """
+    changed = abs_added = doi_added = pdf_added = 0
+    for subset_idx, m in meta.items():
+        paper = papers[candidate_indices[subset_idx]]
+        paper_changed = False
+
+        if not paper.get("abstract", "").strip() and "abstract" in m:
+            paper["abstract"] = m["abstract"]
+            abs_added += 1
+            paper_changed = True
+
+        if not paper.get("doi", "").strip() and "doi" in m:
+            paper["doi"] = m["doi"]
+            doi_added += 1
+            paper_changed = True
+
+        if not paper.get("pdf_url", "").strip() and "oa_url" in m:
+            paper["pdf_url"] = m["oa_url"]
+            pdf_added += 1
+            paper_changed = True
+
+        if paper_changed:
+            src = paper.get("source", "")
+            paper["source"] = f"{src}+openalex" if src else "openalex"
+            changed += 1
+
+    return changed, abs_added, doi_added, pdf_added
+
+
 def enrich_legacy_file(
     path: Path,
     *,
@@ -264,6 +319,122 @@ def enrich_papers_file(
 
 
 
+def _title_search_file(
+    papers: list[dict],
+    *,
+    api_key: str | None,
+    dry_run: bool,
+    limit: int,
+) -> int:
+    """Run title-based OpenAlex search on papers missing abstract+DOI.
+
+    Returns number of papers enriched.
+    """
+    indices = _title_search_candidates(papers)
+    if not indices:
+        return 0
+
+    target_indices = indices[:limit] if limit > 0 else indices
+    target_papers = [papers[i] for i in target_indices]
+
+    logger.info(f"  Title search: {len(target_papers)} candidates")
+
+    t0 = time.time()
+    meta = fetch_metadata_by_title(target_papers, api_key=api_key)
+    elapsed = time.time() - t0
+
+    abs_hits = sum(1 for m in meta.values() if "abstract" in m)
+    logger.info(
+        f"  Title search: {abs_hits}/{len(target_papers)} abstracts found "
+        f"in {elapsed:.1f}s"
+    )
+
+    if dry_run:
+        return abs_hits
+
+    changed, abs_added, doi_added, pdf_added = _apply_title_metadata(
+        papers, meta, target_indices
+    )
+    logger.info(
+        f"  Title search applied: abstract +{abs_added}, doi +{doi_added}, pdf +{pdf_added}"
+    )
+    return changed
+
+
+def enrich_legacy_title_search(
+    path: Path,
+    *,
+    api_key: str | None = None,
+    dry_run: bool = False,
+    limit: int = 0,
+) -> int:
+    """Enrich a legacy file via OpenAlex title search.  Returns papers enriched."""
+    papers = read_legacy(path)
+    if not papers:
+        return 0
+
+    indices = _title_search_candidates(papers)
+    if not indices:
+        return 0
+
+    total = len(papers)
+    with_abstract = sum(1 for p in papers if p.get("abstract", "").strip())
+    logger.info(
+        f"\n{'=' * 60}\n{path.name}: {total} papers, "
+        f"{with_abstract} with abstract, "
+        f"{len(indices)} without abstract or DOI (title search)"
+    )
+
+    changed = _title_search_file(
+        papers, api_key=api_key, dry_run=dry_run, limit=limit,
+    )
+
+    if not dry_run and changed > 0:
+        write_legacy(path, papers, atomic=True)
+        logger.info(f"  Written back to {path.name}")
+
+    return changed
+
+
+def enrich_papers_title_search(
+    path: Path,
+    *,
+    api_key: str | None = None,
+    dry_run: bool = False,
+    limit: int = 0,
+) -> int:
+    """Enrich a papers file via OpenAlex title search.  Returns papers enriched."""
+    data = read_venue_json(path)
+    papers = data.get("papers", [])
+    if not papers:
+        return 0
+
+    indices = _title_search_candidates(papers)
+    if not indices:
+        return 0
+
+    logger.info(
+        f"\n{'=' * 60}\n{path.name}: {len(papers)} papers, "
+        f"{len(indices)} without abstract or DOI (title search)"
+    )
+
+    changed = _title_search_file(
+        papers, api_key=api_key, dry_run=dry_run, limit=limit,
+    )
+
+    if not dry_run and changed > 0:
+        write_venue_json(
+            data["venue"],
+            data["year"],
+            papers,
+            path.parent,
+            filename=path.name.replace(".json.gz", ""),
+        )
+        logger.info(f"  Written {path.name}")
+
+    return changed
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Enrich venue data with abstracts/OA PDFs from OpenAlex",
@@ -286,6 +457,15 @@ def main() -> None:
         help=(
             "Process every file in data/papers/ regardless of venue or DOI "
             "prefix (implies --no-legacy)."
+        ),
+    )
+    parser.add_argument(
+        "--title-search",
+        action="store_true",
+        help=(
+            "Use title-based OpenAlex search for papers missing both "
+            "abstract and DOI.  Slower than DOI lookup but covers papers "
+            "without DOIs (AAAI, IJCAI, ICML legacy, etc.)."
         ),
     )
     parser.add_argument(
@@ -342,8 +522,24 @@ def main() -> None:
             "Set OPENALEX_API_KEY env var or pass --api-key for higher limits."
         )
 
-    # --all-venues: scan every legacy + papers file, all DOIs
-    if args.all_venues:
+    # Check budget before starting
+    budget = check_rate_limit(api_key)
+    if budget:
+        remaining = budget["credits_remaining"]
+        limit = budget["credits_limit"]
+        reset_h = budget["resets_in_seconds"] / 3600
+        logger.info(
+            f"OpenAlex budget: {remaining}/{limit} credits remaining "
+            f"(resets in {reset_h:.1f}h)"
+        )
+        if remaining < 100:
+            logger.warning(
+                f"Very low credit budget ({remaining} credits). "
+                f"Consider waiting {reset_h:.1f}h for reset."
+            )
+
+    # Determine which files to process
+    if args.all_venues or args.title_search:
         ieee_only = False
         legacy_files = sorted(LEGACY_DIR.glob("*-legacy.jsonl.gz"))
         papers_files = sorted(PAPERS_DIR.glob("*.json.gz"))
@@ -369,6 +565,11 @@ def main() -> None:
                 for p in sorted(PAPERS_DIR.glob(f"{v}-*.json.gz")):
                     papers_files.append(p)
 
+    # Filter by venue if specified with --title-search
+    if args.venue and (args.all_venues or args.title_search):
+        legacy_files = [p for p in legacy_files if p.name.startswith(f"{args.venue}-")]
+        papers_files = [p for p in papers_files if p.name.startswith(f"{args.venue}-")]
+
     if args.no_legacy:
         legacy_files = []
     if args.no_papers:
@@ -378,35 +579,57 @@ def main() -> None:
         logger.error("No files found to process")
         sys.exit(1)
 
+    mode_label = "title search" if args.title_search else (
+        "all DOIs" if not ieee_only else "IEEE DOIs only"
+    )
     logger.info(
         f"Will process {len(legacy_files)} legacy file(s) "
         f"and {len(papers_files)} papers file(s)"
-        + (" [all DOIs]" if not ieee_only else " [IEEE DOIs only]")
+        f" [{mode_label}]"
         + (" [+OA PDF]" if args.oa_pdf else "")
     )
 
     t_start = time.time()
     total_enriched = 0
 
-    for path in legacy_files:
-        total_enriched += enrich_legacy_file(
-            path,
-            api_key=api_key,
-            dry_run=args.dry_run,
-            ieee_only=ieee_only,
-            oa_pdf=args.oa_pdf,
-            limit=args.limit,
-        )
+    if args.title_search:
+        # Title-based search mode
+        for path in legacy_files:
+            total_enriched += enrich_legacy_title_search(
+                path,
+                api_key=api_key,
+                dry_run=args.dry_run,
+                limit=args.limit,
+            )
 
-    for path in papers_files:
-        total_enriched += enrich_papers_file(
-            path,
-            api_key=api_key,
-            dry_run=args.dry_run,
-            ieee_only=ieee_only,
-            oa_pdf=args.oa_pdf,
-            limit=args.limit,
-        )
+        for path in papers_files:
+            total_enriched += enrich_papers_title_search(
+                path,
+                api_key=api_key,
+                dry_run=args.dry_run,
+                limit=args.limit,
+            )
+    else:
+        # DOI-based enrichment (original mode)
+        for path in legacy_files:
+            total_enriched += enrich_legacy_file(
+                path,
+                api_key=api_key,
+                dry_run=args.dry_run,
+                ieee_only=ieee_only,
+                oa_pdf=args.oa_pdf,
+                limit=args.limit,
+            )
+
+        for path in papers_files:
+            total_enriched += enrich_papers_file(
+                path,
+                api_key=api_key,
+                dry_run=args.dry_run,
+                ieee_only=ieee_only,
+                oa_pdf=args.oa_pdf,
+                limit=args.limit,
+            )
 
     elapsed = time.time() - t_start
     action = "would enrich" if args.dry_run else "enriched"

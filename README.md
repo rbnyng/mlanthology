@@ -50,12 +50,36 @@ Keys follow the pattern:
 
 Collisions are resolved with a short suffix. The generation is fully deterministic from the paper metadata.
 
+## API Access?
+
+I didn't make one, but every paper page embeds structured metadata as [JSON-LD](https://json-ld.org/) in the document head.
+
+Notice that:
+
+```python
+import requests, json, re
+
+def get_paper(key):
+    r = requests.get(f"https://mlanthology.org/{key}")
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', r.text, re.DOTALL)
+    return json.loads(m.group(1))
+
+>>> get_paper("neurips/2017/vaswani2017neurips-attention")
+{
+  "@type": "ScholarlyArticle",
+  "headline": "...",
+  "author": [...],
+  "datePublished": "2017",
+  "description": "...",
+  ...
+}
+```
+
 ## Data sources
 
 ML Anthology is built on top of open data from:
 
-- [DBLP](https://dblp.org) — bibliographic metadata (CC0)
-- [Semantic Scholar](https://semanticscholar.org) — abstracts and metadata
+- [DBLP](https://dblp.org), [Semantic Scholar](https://semanticscholar.org), and [OpenAlex](https://openalex.org) — bibliographic metadata
 - [OpenReview](https://openreview.net) — ICLR and TMLR metadata
 - [NeurIPS](https://proceedings.neurips.cc) — NeurIPS metadata
 - [PMLR](https://proceedings.mlr.press) — ICML, AISTATS, COLT, and other proceedings

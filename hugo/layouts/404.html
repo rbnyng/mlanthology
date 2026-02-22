@@ -4,12 +4,18 @@
   <div id="easter-egg-message"></div>
 </section>
 <script>
-  const messages = [
+  var y = new Date().getFullYear();
+  var messages = [
     '<p>Paper not found. If you believe this is an error in our proceedings, please submit a rebuttal.</p>',
-    '<p>404: Rejected. This page did not meet the acceptance threshold. The reviewers noted a lack of content and insufficient novelty.</p>',
+    '<p>This page did not meet the acceptance threshold. The reviewers noted a lack of content and insufficient novelty.</p>',
     '<p class="citation-needed">[citation needed]</p>',
-    '<pre class="bibtex-block">@article{you2025nowhere,\n  title   = {Page Not Found},\n  author  = {You, Dear Reader},\n  journal = {Proceedings of Getting Lost},\n  year    = {2025},\n  note    = {This paper has been withdrawn.}\n}</pre>',
+    '<pre class="bibtex-block">@article{you' + y + 'nowhere,\n  title   = {Page Not Found},\n  author  = {You, Dear Reader},\n  journal = {Proceedings of Getting Lost},\n  year    = {' + y + '},\n  note    = {This paper has been withdrawn.}\n}</pre>',
     '<p>This page was not accepted at any venue.</p>',
+    '<p>This page has been desk rejected without review.</p>',
+    '<p>We regret to inform you that your request for this page was not successful. We received a record number of requests this year.</p>',
+    '<p>The requested contribution was found to be out of scope for this venue.</p>',
+    '<p>Reviewer 2 killed this page.</p>',
+    '<p>This page is under review. Please check back in 6–8 months.</p>',
   ];
   document.getElementById('easter-egg-message').innerHTML =
     messages[Math.floor(Math.random() * messages.length)];

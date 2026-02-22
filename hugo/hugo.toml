@@ -5,15 +5,15 @@ title = "ML Anthology"
 enableRobotsTXT = true
 
 [params]
-  description = "A unified proceedings platform for machine learning research"
+  description = "An anthology for machine learning research"
   totalPapers = 0  # updated by build script
 
 [taxonomies]
 
 [outputs]
-  home = ["HTML"]
+  home = ["HTML", "sitemap"]
   section = ["HTML"]
-
+  
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

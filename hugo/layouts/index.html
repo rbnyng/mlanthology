@@ -36,7 +36,7 @@
 
 <section class="hero">
   <h1>ML Anthology</h1>
-  <p class="subtitle">A unified proceedings platform for machine learning research.</p>
+  <p class="subtitle">An anthology for machine learning research.</p>
   <p class="paper-count">Currently indexing <strong>{{ $totalPapers }}</strong> papers across <strong>{{ add (len $conferences) (add (len $journals) (len $workshops)) }}</strong> venues.</p>
   <div class="search-box-home">
     <form action="{{ "search/" | relURL }}" method="get">
@@ -78,21 +78,19 @@
   {{ $workshopPapers := 0 }}
   {{ range $workshops }}{{ $workshopPapers = add $workshopPapers .count }}{{ end }}
   <h2>Workshops</h2>
-  <details class="workshops-section">
-    <summary>{{ len $workshops }} workshops ({{ $workshopPapers }} papers) — click to expand</summary>
-    <div class="venue-cards" style="margin-top: 1rem;">
-      {{ range sort $workshops "count" "desc" }}
-      <div class="venue-card venue-card-workshop">
-        <a href="{{ .page.RelPermalink }}">
-          <h3>{{ with .venue }}{{ .short }}{{ else }}{{ upper .slug }}{{ end }}</h3>
-          <p class="venue-full-name">{{ .page.Title }}</p>
-          <p class="venue-count">{{ .count }} papers</p>
-          <p class="venue-years">{{ if eq (len .years) 1 }}{{ index .years 0 }}{{ else }}{{ index .years (sub (len .years) 1) }}–{{ index .years 0 }}{{ end }}</p>
-        </a>
-      </div>
-      {{ end }}
+  <p class="section-summary">{{ len $workshops }} workshops ({{ $workshopPapers }} papers)</p>
+  <div class="venue-cards">
+    {{ range sort $workshops "count" "desc" }}
+    <div class="venue-card venue-card-workshop">
+      <a href="{{ .page.RelPermalink }}">
+        <h3>{{ with .venue }}{{ .short }}{{ else }}{{ upper .slug }}{{ end }}</h3>
+        <p class="venue-full-name">{{ .page.Title }}</p>
+        <p class="venue-count">{{ .count }} papers</p>
+        <p class="venue-years">{{ if eq (len .years) 1 }}{{ index .years 0 }}{{ else }}{{ index .years (sub (len .years) 1) }}–{{ index .years 0 }}{{ end }}</p>
+      </a>
     </div>
-  </details>
+    {{ end }}
+  </div>
   {{ end }}
 </section>
 {{ end }}
