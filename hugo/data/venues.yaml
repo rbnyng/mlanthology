@@ -197,7 +197,7 @@ distill:
   type: journal
 
 ftml:
-  short: "FnTML"
+  short: "FTML"
   name: "Foundations and Trends in Machine Learning"
   type: journal
 
