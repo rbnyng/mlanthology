@@ -102,7 +102,7 @@ jobs:
         run: |
           python scripts/build_content.py
           hugo --minify --source hugo
-          npx pagefind --site hugo/public
+          npx pagefind@beta --site hugo/public
 
       - name: Commit author pages
         run: |

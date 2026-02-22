@@ -30,7 +30,7 @@ jobs:
         run: hugo --minify --source hugo
 
       - name: Build search index
-        run: npx pagefind --site hugo/public
+        run: npx pagefind@beta --site hugo/public
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
