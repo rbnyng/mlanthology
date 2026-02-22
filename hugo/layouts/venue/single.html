@@ -91,7 +91,8 @@
   year      = {{ "{" }}{{ .Params.year }}{{ "}" }},{{ with .Params.pages }}
   pages     = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with .Params.doi }}
   doi       = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with .Params.volume }}
-  volume    = {{ "{" }}{{ . }}{{ "}" }},{{ end }}
+  volume    = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with .Params.number }}
+  number    = {{ "{" }}{{ . }}{{ "}" }},{{ end }}
   url       = {{ "{" }}{{ .Permalink }}{{ "}" }}
 {{ "}" }}</code></pre>
     </div>

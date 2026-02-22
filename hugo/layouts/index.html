@@ -22,7 +22,13 @@
         {{ end }}
       {{ end }}
       {{ $years = sort $years "value" "desc" }}
-      {{ $entry := dict "page" . "venue" $venue "slug" $slug "count" $count "years" $years }}
+      {{/* Log-scale border width: 2px (~50 papers) → 6px (~30k papers) */}}
+      {{ $lc := math.Log $count }}
+      {{ $t := div (sub $lc 4.0) 6.5 }}
+      {{ if lt $t 0.0 }}{{ $t = 0.0 }}{{ end }}
+      {{ if gt $t 1.0 }}{{ $t = 1.0 }}{{ end }}
+      {{ $bw := printf "%.1f" (add 2.0 (mul 4.0 $t)) }}
+      {{ $entry := dict "page" . "venue" $venue "slug" $slug "count" $count "years" $years "bw" $bw }}
       {{ if and $venue (eq $venue.type "conference") }}
         {{ $conferences = $conferences | append $entry }}
       {{ else if and $venue (eq $venue.type "journal") }}
@@ -36,7 +42,7 @@
 
 <section class="hero">
   <h1>ML Anthology</h1>
-  <p class="subtitle">An anthology for machine learning research.</p>
+  <p class="subtitle">A unified proceedings platform for machine learning research.</p>
   <p class="paper-count">Currently indexing <strong>{{ $totalPapers }}</strong> papers across <strong>{{ add (len $conferences) (add (len $journals) (len $workshops)) }}</strong> venues.</p>
   <div class="search-box-home">
     <form action="{{ "search/" | relURL }}" method="get">
@@ -49,7 +55,7 @@
   <h2>Conferences</h2>
   <div class="venue-cards">
     {{ range sort $conferences "count" "desc" }}
-    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}">
+    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}" style="--bw: {{ .bw }}px">
       <a href="{{ .page.RelPermalink }}">
         <h3>{{ .venue.short }}</h3>
         <p class="venue-full-name">{{ .venue.name }}</p>
@@ -63,7 +69,7 @@
   <h2>Journals</h2>
   <div class="venue-cards">
     {{ range sort $journals "count" "desc" }}
-    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}">
+    <div class="venue-card{{ if lt .count 500 }} venue-card-minor{{ end }}" style="--bw: {{ .bw }}px">
       <a href="{{ .page.RelPermalink }}">
         <h3>{{ .venue.short }}</h3>
         <p class="venue-full-name">{{ .venue.name }}</p>
@@ -75,13 +81,10 @@
   </div>
 
   {{ if gt (len $workshops) 0 }}
-  {{ $workshopPapers := 0 }}
-  {{ range $workshops }}{{ $workshopPapers = add $workshopPapers .count }}{{ end }}
   <h2>Workshops</h2>
-  <p class="section-summary">{{ len $workshops }} workshops ({{ $workshopPapers }} papers)</p>
   <div class="venue-cards">
     {{ range sort $workshops "count" "desc" }}
-    <div class="venue-card venue-card-workshop">
+    <div class="venue-card venue-card-workshop" style="--bw: {{ .bw }}px">
       <a href="{{ .page.RelPermalink }}">
         <h3>{{ with .venue }}{{ .short }}{{ else }}{{ upper .slug }}{{ end }}</h3>
         <p class="venue-full-name">{{ .page.Title }}</p>
