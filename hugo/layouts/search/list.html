@@ -1,0 +1,145 @@
+{{ define "main" }}
+<div class="search-page" role="search">
+  <h1>Search</h1>
+  <input type="text" id="search-input" class="input-search" placeholder="Search papers by title, author, or venue..." autofocus aria-label="Search papers">
+  <div id="search-results" aria-live="polite" aria-label="Search results"></div>
+</div>
+
+<link href="{{ "pagefind/pagefind-ui.css" | relURL }}" rel="stylesheet">
+<script src="{{ "pagefind/pagefind.js" | relURL }}" type="module"></script>
+<script type="module">
+let pagefind;
+try {
+  pagefind = await import("{{ "pagefind/pagefind.js" | relURL }}");
+  await pagefind.init();
+} catch (err) {
+  const container = document.getElementById("search-results");
+  const p = document.createElement("p");
+  p.style.color = "var(--text-secondary)";
+  p.textContent = "Search is temporarily unavailable. Please try refreshing the page.";
+  container.appendChild(p);
+  throw err;
+}
+
+const BATCH_SIZE = 50;
+const input = document.getElementById("search-input");
+const container = document.getElementById("search-results");
+let debounceTimer;
+let currentResults = [];
+let loadedCount = 0;
+
+function createEntry(r) {
+  const div = document.createElement("div");
+  div.className = "paper-entry";
+
+  const venue = (r.filters && r.filters.venue) ? r.filters.venue[0] : "";
+  const year = (r.filters && r.filters.year) ? r.filters.year[0] : "";
+  const authors = (r.meta && r.meta.authors) || "";
+
+  if (venue) {
+    const badge = document.createElement("span");
+    badge.className = "venue-badge";
+    badge.textContent = venue.toUpperCase();
+    div.appendChild(badge);
+  }
+  if (year) {
+    const span = document.createElement("span");
+    span.className = "year";
+    span.textContent = year;
+    div.appendChild(span);
+  }
+  const link = document.createElement("a");
+  link.href = r.url;
+  link.className = "paper-title";
+  link.textContent = (r.meta && r.meta.title) || "";
+  div.appendChild(link);
+
+  if (authors) {
+    const span = document.createElement("span");
+    span.className = "paper-authors-inline";
+    span.textContent = authors;
+    div.appendChild(span);
+  }
+  return div;
+}
+
+function updateCount() {
+  const el = document.getElementById("search-count");
+  if (!el) return;
+  const total = currentResults.length;
+  if (loadedCount >= total) {
+    el.textContent = total === 1 ? "1 result" : total + " results";
+  } else {
+    el.textContent = "Showing " + loadedCount + " of " + total + " results";
+  }
+}
+
+async function loadMore() {
+  const batch = currentResults.slice(loadedCount, loadedCount + BATCH_SIZE);
+  const data = await Promise.all(batch.map(function (r) { return r.data(); }));
+
+  const existing = document.getElementById("load-more");
+  if (existing) existing.remove();
+
+  const fragment = document.createDocumentFragment();
+  data.forEach(function (r) { fragment.appendChild(createEntry(r)); });
+  container.appendChild(fragment);
+
+  loadedCount += data.length;
+  updateCount();
+
+  if (loadedCount < currentResults.length) {
+    const btn = document.createElement("button");
+    btn.id = "load-more";
+    btn.className = "load-more-btn";
+    btn.textContent = "Load more";
+    btn.addEventListener("click", loadMore);
+    container.appendChild(btn);
+  }
+}
+
+async function doSearch(query) {
+  if (!query) { container.innerHTML = ""; return; }
+  try {
+    const search = await pagefind.search(query);
+    currentResults = search.results;
+    loadedCount = 0;
+    container.innerHTML = "";
+
+    if (!currentResults.length) {
+      const p = document.createElement("p");
+      p.style.color = "var(--text-secondary)";
+      p.textContent = "No results found.";
+      container.appendChild(p);
+      return;
+    }
+
+    const countEl = document.createElement("p");
+    countEl.id = "search-count";
+    countEl.className = "search-count";
+    container.appendChild(countEl);
+
+    await loadMore();
+  } catch (err) {
+    container.innerHTML = "";
+    const p = document.createElement("p");
+    p.style.color = "var(--text-secondary)";
+    p.textContent = "Search encountered an error. Please try again.";
+    container.appendChild(p);
+  }
+}
+
+input.addEventListener("input", function (e) {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(function () { doSearch(e.target.value); }, 200);
+});
+
+// Support ?q= URL parameter
+const params = new URLSearchParams(window.location.search);
+const q = params.get("q");
+if (q) {
+  input.value = q;
+  doSearch(q);
+}
+</script>
+{{ end }}

@@ -1,0 +1,94 @@
+name: Build Legacy Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      venue:
+        description: 'Venue to build (default: all venues)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - icml
+          - iclr
+          - cvpr
+          - iccv
+          - eccv
+          - wacv
+          - aistats
+          - uai
+          - colt
+          - corl
+      force:
+        description: 'Overwrite existing legacy files'
+        required: false
+        default: false
+        type: boolean
+      no_enrich:
+        description: 'Skip Semantic Scholar enrichment (DBLP-only, no abstracts)'
+        required: false
+        default: false
+        type: boolean
+      title_fallback:
+        description: 'Also try title-based S2 search for papers without DOIs (slow)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: build-legacy
+  cancel-in-progress: false  # don't cancel long-running legacy builds
+
+permissions:
+  contents: write
+
+jobs:
+  build-legacy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # DBLP + S2 enrichment can take hours for all venues
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: Validate S2 API key
+        if: inputs.no_enrich != true
+        run: |
+          if [ -z "$S2_API_KEY" ]; then
+            echo "::error::S2_API_KEY secret is not set. Either set the secret or use no_enrich=true."
+            exit 1
+          fi
+          echo "S2 API key is configured"
+        env:
+          S2_API_KEY: ${{ secrets.S2_API_KEY }}
+
+      - name: Build legacy data
+        run: |
+          ARGS=""
+          if [ "${{ inputs.venue }}" != "all" ]; then
+            ARGS="$ARGS --venue ${{ inputs.venue }}"
+          fi
+          if [ "${{ inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          if [ "${{ inputs.no_enrich }}" = "true" ]; then
+            ARGS="$ARGS --no-enrich"
+          fi
+          if [ "${{ inputs.title_fallback }}" = "true" ]; then
+            ARGS="$ARGS --title-fallback"
+          fi
+          if [ -n "$S2_API_KEY" ]; then
+            ARGS="$ARGS --s2-api-key $S2_API_KEY"
+          fi
+          python scripts/build_legacy.py $ARGS
+        env:
+          S2_API_KEY: ${{ secrets.S2_API_KEY }}
+
+      - name: Commit legacy data
+        run: |
+          git config user.name "ML Anthology Bot"
+          git config user.email "bot@ml-anthology.org"
+          git add data/legacy/
+          git diff --staged --quiet || git commit -m "Build legacy data [automated]"
+          git push

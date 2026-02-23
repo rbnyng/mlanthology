@@ -1,0 +1,86 @@
+{{ define "main" }}
+
+{{ if .Params.letter }}
+  {{/* Per-letter page — /authors/{letter}/ */}}
+  <h1><a href="{{ "authors/" | relURL }}">Authors</a> / {{ .Params.letter }}</h1>
+  <p class="author-count-total">{{ len .Pages }} authors</p>
+
+  <div class="author-filter-box">
+    <input type="text" id="author-search" class="input-search" placeholder="Search authors..." autocomplete="off">
+    <p class="author-count-filtered" id="filtered-count" style="display:none;"></p>
+  </div>
+
+  {{/* Alphabet nav — links to sibling letter pages */}}
+  {{ $allLetters := slice "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" }}
+  <nav class="letter-nav" aria-label="Alphabet">
+    {{ range $allLetters }}
+      {{ $letterPage := site.GetPage (printf "authors/%s" (lower .)) }}
+      {{ if $letterPage }}
+        <a href="{{ $letterPage.RelPermalink }}" class="letter-link{{ if eq $.Params.letter . }} active{{ end }}">{{ . }}</a>
+      {{ else }}
+        <span class="letter-link disabled">{{ . }}</span>
+      {{ end }}
+    {{ end }}
+  </nav>
+
+  <div class="author-list-grid">
+    {{ range .Pages.ByParam "title" }}
+    <div class="author-entry" data-name="{{ .Title | lower }}">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <span class="pub-count">({{ .Params.paper_count }})</span>
+    </div>
+    {{ end }}
+  </div>
+
+  <script>
+    (function() {
+      const searchInput = document.getElementById('author-search');
+      const entries = document.querySelectorAll('.author-entry');
+      const filteredCount = document.getElementById('filtered-count');
+      const totalCount = document.querySelector('.author-count-total');
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+
+        if (query === '') {
+          entries.forEach(entry => entry.style.display = 'flex');
+          filteredCount.style.display = 'none';
+          totalCount.style.display = 'block';
+          return;
+        }
+
+        totalCount.style.display = 'none';
+        let visibleCount = 0;
+
+        entries.forEach(entry => {
+          const name = entry.getAttribute('data-name');
+          if (name.includes(query)) {
+            entry.style.display = 'flex';
+            visibleCount++;
+          } else {
+            entry.style.display = 'none';
+          }
+        });
+
+        filteredCount.textContent = visibleCount + ' author' + (visibleCount !== 1 ? 's' : '') + ' found';
+        filteredCount.style.display = 'block';
+      });
+    })();
+  </script>
+
+{{ else }}
+  {{/* Top-level author index — /authors/ */}}
+  <h1>Authors</h1>
+  {{ $totalAuthors := 0 }}
+  {{ range .Sections }}{{ $totalAuthors = add $totalAuthors (len .Pages) }}{{ end }}
+  <p class="author-count-total">{{ $totalAuthors }} authors indexed</p>
+
+  <nav class="letter-nav" aria-label="Alphabet">
+    {{ range .Sections.ByParam "letter" }}
+      <a href="{{ .RelPermalink }}" class="letter-link">{{ .Params.letter }}</a>
+    {{ end }}
+  </nav>
+
+{{ end }}
+
+{{ end }}
