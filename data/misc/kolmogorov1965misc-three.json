@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "kolmogorov1965misc-three",
+  "title": "Three Approaches to the Quantitative Definition of Information",
+  "authors": [
+    {
+      "given": "Andrey N.",
+      "family": "Kolmogorov",
+      "slug": "kolmogorov-andrey-n"
+    }
+  ],
+  "year": "1968",
+  "venue": "misc",
+  "venue_name": "International Journal of Computer Mathematics",
+  "venue_type": "misc",
+  "volume": "2",
+  "number": "1-4",
+  "pages": "157-168",
+  "abstract": "There are two common approaches to the quantitative definition of "information": combinatorial and probabilistic. The author briefly describes the major features of these approaches and introduces a new algorithmic approach that uses the theory of recursive functions.",
+  "pdf_url": "https://knowen-production.s3.amazonaws.com/uploads/attachment/file/3520/Three%2Bapproaches%2Bto%2Bthe%2Bquantitative%2Bdefinition%2Bof%2Binformation.pdf",
+  "venue_url": "",
+  "doi": "10.1080/00207166808803030",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

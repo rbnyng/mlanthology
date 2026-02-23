@@ -1,0 +1,28 @@
+{
+  "bibtex_key": "bellman1957misc-dynamic",
+  "title": "Dynamic Programming",
+  "authors": [
+    {
+      "given": "Richard",
+      "family": "Bellman",
+      "slug": "bellman-richard"
+    }
+  ],
+  "year": "1957",
+  "venue": "misc",
+  "venue_name": "Princeton University Press",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "This classic book is an introduction to dynamic programming, presented by the scientist who coined the term and developed the theory in its early stages. In Dynamic Programming, Richard E. Bellman introduces his groundbreaking theory and furnishes a new and versatile mathematical tool for the treatment of many complex problems, both within and outside of the discipline.
+
+The book is written at a moderate mathematical level, requiring only a basic foundation in mathematics, including calculus. The applications formulated and analyzed in such diverse fields as mathematical economics, logistics, scheduling theory, communication theory, and control processes are as relevant today as they were when Bellman first presented them. A new introduction by Stuart Dreyfus reviews Bellman’s later work on dynamic programming and identifies important research areas that have profited from the application of Bellman’s theory.",
+  "pdf_url": "https://gwern.net/doc/statistics/decision/1957-bellman-dynamicprogramming.pdf",
+  "venue_url": "https://press.princeton.edu/books/paperback/9780691146683/dynamic-programming",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

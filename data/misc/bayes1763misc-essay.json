@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "bayes1763misc-essay",
+  "title": "An Essay towards Solving a Problem in the Doctrine of Chances",
+  "authors": [
+    {
+      "given": "Thomas",
+      "family": "Bayes",
+      "slug": "bayes-thomas"
+    }
+  ],
+  "year": "1763",
+  "venue": "misc",
+  "venue_name": "Philosophical Transactions of the Royal Society",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "370-418",
+  "abstract": "Dear Sir, I Now send you an essay which I have found among the papers of our deceased friend Mr. Bayes, and which, in my opinion, has great merit, and well deserves to be preserved.",
+  "pdf_url": "https://bayes.wustl.edu/Manual/an.essay.pdf",
+  "venue_url": "https://royalsocietypublishing.org/rstl/article/doi/10.1098/rstl.1763.0053/119736",
+  "doi": "10.1098/rstl.1763.0053",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

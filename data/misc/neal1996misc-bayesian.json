@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "neal1996misc-bayesian",
+  "title": "Bayesian Learning for Neural Networks",
+  "authors": [
+    {
+      "given": "Radford M.",
+      "family": "Neal",
+      "slug": "neal-radford-m"
+    }
+  ],
+  "year": "1996",
+  "venue": "misc",
+  "venue_name": "PhD thesis",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "",
+  "pdf_url": "https://github.com/yetweka/yet-weka/blob/a6d1bb3e3e43bc359cde98958df97edbc590d79f/thesis/BAYESIAN%20LEARNING%20FOR%20NEURAL%20NETWORKS%20%EF%BC%8CRadford%20M.%20Neal%20%E5%A4%9A%E4%BC%A6%E5%A4%9A1995.pdf",
+  "venue_url": "",
+  "doi": "10.1007/978-1-4612-0745-0",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

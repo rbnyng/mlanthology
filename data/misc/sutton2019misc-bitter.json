@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "sutton2019misc-bitter",
+  "title": "The Bitter Lesson",
+  "authors": [
+    {
+      "given": "Richard S.",
+      "family": "Sutton",
+      "slug": "sutton-richard-s"
+    }
+  ],
+  "year": "2019",
+  "venue": "misc",
+  "venue_name": "Blog post",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "",
+  "pdf_url": "",
+  "venue_url": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

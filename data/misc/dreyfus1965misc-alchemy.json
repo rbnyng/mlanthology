@@ -1,0 +1,28 @@
+{
+  "bibtex_key": "dreyfus1965misc-alchemy",
+  "title": "Alchemy and Artificial Intelligence",
+  "authors": [
+    {
+      "given": "Hubert L.",
+      "family": "Dreyfus",
+      "slug": "dreyfus-hubert-l"
+    }
+  ],
+  "year": "1965",
+  "venue": "misc",
+  "venue_name": "RAND",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "Early successes in programming digital computers to exhibit simple forms of intelligent behavior, coupled with the belief that intelligent activities differ only in their degree of complexity, have led to the conviction that the information processing underlying any cognitive performance can be formulated in a program and thus simulated on a digital computer. Attempts to simulate cognitive processes on computers have, however, run into greater difficulties than anticipated.
+
+An examination of these difficulties reveals that the attempt to analyze intelligent behavior in digital computer language systematically excludes three fundamental human forms of information processing (fringe consciousness, essence/accident discrimination, and ambiguity tolerance). Moreover, there are four distinct types of intelligent activity, only two of which do not presuppose these human forms of information processing and can therefore be programmed. Significant developments in artificial intelligence in the remaining two areas must await computers of an entirely different sort, of which the only existing prototype is the little-understood human brain.",
+  "pdf_url": "https://www.rand.org/content/dam/rand/pubs/papers/2006/P3244.pdf",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

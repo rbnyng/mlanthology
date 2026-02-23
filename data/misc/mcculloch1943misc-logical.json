@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "mcculloch1943misc-logical",
+  "title": "A Logical Calculus of the Ideas Immanent in Nervous Activity",
+  "authors": [
+    {
+      "given": "Warren S.",
+      "family": "McCulloch",
+      "slug": "mcculloch-warren-s"
+    },
+    {
+      "given": "Walter",
+      "family": "Pitts",
+      "slug": "pitts-walter"
+    }
+  ],
+  "year": "1943",
+  "venue": "misc",
+  "venue_name": "Bulletin of Mathematical Biophysics",
+  "venue_type": "misc",
+  "volume": "5",
+  "number": "",
+  "pages": "115-133",
+  "abstract": "Because of the “all-or-none” character of nervous activity, neural events and the relations among them can be treated by means of propositional logic. It is found that the behavior of every net can be described in these terms, with the addition of more complicated logical means for nets containing circles; and that for any logical expression satisfying certain conditions, one can find a net behaving in the fashion it describes. It is shown that many particular choices among possible neurophysiological assumptions are equivalent, in the sense that for every net behaving under one assumption, there exists another net which behaves under the other and gives the same results, although perhaps not in the same time. Various applications of the calculus are discussed.",
+  "pdf_url": "https://www.cs.cmu.edu/~epxing/Class/10715/reading/McCulloch.and.Pitts.pdf",
+  "venue_url": "",
+  "doi": "10.1007/BF02478259",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

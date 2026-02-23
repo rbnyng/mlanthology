@@ -215,3 +215,8 @@ dmlr:
   short: "DMLR"
   name: "Data-centric Machine Learning Research"
   type: journal
+
+misc:
+  short: "Notable Works"
+  name: "Notable Works"
+  type: misc

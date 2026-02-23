@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "vapnik1971misc-uniform",
+  "title": "On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities",
+  "authors": [
+    {
+      "given": "Vladimir N.",
+      "family": "Vapnik",
+      "slug": "vapnik-vladimir-n"
+    },
+    {
+      "given": "Alexey Ya.",
+      "family": "Chervonenkis",
+      "slug": "chervonenkis-alexey-ya"
+    }
+  ],
+  "year": "1971",
+  "venue": "misc",
+  "venue_name": "Theory of Probability and Its Applications",
+  "venue_type": "misc",
+  "volume": "16",
+  "number": "2",
+  "pages": "264-280",
+  "abstract": "This chapter reproduces the English translation by B. Seckler of the paper by Vapnik and Chervonenkis in which they gave proofs for the innovative results they had obtained in a draft form in July 1966 and announced in 1968 in their note in Soviet Mathematics Doklady. The paper was first published in Russian as Вапник В. Н. and Червоненкис А. Я. О равномерноЙ сходимости частот появления событиЙ к их вероятностям. Теория вероятностеЙ и ее применения 16(2), 264–279 (1971).",
+  "pdf_url": "https://openeclass.panteion.gr/modules/document/file.php/PMS152/LEARNING/Vapnik%20V.N.%2C%20and%20Chervonenkis%20A.Y.%20%281971%29%20--%20On%20Uniform%20Convergence%20of%20the%20Relative%20Frequencies%20of%20Events%20to%20Their%20Probabilities%2C%20Theory%20of%20Probabilitiy%20and%20Its%20Applications%2C%20vol.%20%2C%20pp.%20264-280%20.pdf",
+  "venue_url": "",
+  "doi": "10.1137/1116025",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

@@ -34,6 +34,7 @@ from scripts.page_builders import (
     build_paper_page,
     build_venue_index,
     build_year_index,
+    build_misc_index,
     build_author_page,
 )
 
@@ -41,6 +42,7 @@ from adapters.common import slugify_author
 
 DATA_DIR = ROOT / "data" / "papers"
 BACKLOG_DIR = ROOT / "data" / "backlog"
+TRANSCRIPTIONS_DIR = ROOT / "data" / "misc" / "transcriptions"
 CONTENT_DIR = ROOT / "hugo" / "content"
 STATIC_PAGES_DIR = ROOT / "hugo" / "static_pages"
 AUTHORS_DIR = CONTENT_DIR / "authors"
@@ -79,9 +81,18 @@ def _write_venue_year_worker(vy_key: tuple) -> int:
         paper_id = paper.get("bibtex_key", "").replace("/", "-")
         if not paper_id:
             continue
-        (year_dir / f"{paper_id}.md").write_text(
-            build_paper_page(paper, _VENUES, slugify_author), encoding="utf-8"
-        )
+        page_content = build_paper_page(paper, _VENUES, slugify_author)
+
+        # Append transcription body if a matching .md file exists
+        transcription_path = TRANSCRIPTIONS_DIR / f"{paper_id}.md"
+        if transcription_path.is_file():
+            body = transcription_path.read_text(encoding="utf-8")
+            # Insert transcribed: true into front matter
+            page_content = page_content.replace(
+                "\n---\n\n", f"\ntranscribed: true\n---\n\n{body}\n", 1
+            )
+
+        (year_dir / f"{paper_id}.md").write_text(page_content, encoding="utf-8")
         count += 1
     return count
 
@@ -171,7 +182,7 @@ def build_all(sample: bool = False):
     if sample:
         _SAMPLE_VENUES = {
             "iclr", "colt", "jmlr", "tmlr",
-            "iclrw", "jair"
+            "iclrw", "jair",
         }
         venue_years: dict[str, set[str]] = defaultdict(set)
         for p in all_papers:
@@ -184,6 +195,9 @@ def build_all(sample: bool = False):
             if v in venue_years:
                 latest = max(venue_years[v])
                 sample_vy.add((v, latest))
+        # Always include all misc papers in sample builds
+        for y in venue_years.get("misc", set()):
+            sample_vy.add(("misc", y))
         all_papers = [
             p for p in all_papers
             if (p.get("venue", "").lower(), str(p.get("year", ""))) in sample_vy
@@ -298,9 +312,15 @@ def build_all(sample: bool = False):
 
     for venue, years_set in venue_years.items():
         venue_dir = CONTENT_DIR / venue
-        (venue_dir / "_index.md").write_text(
-            build_venue_index(venue, years_set, paper_counts, _VENUES), encoding="utf-8"
-        )
+        if venue == "misc":
+            total_misc = sum(paper_counts.get(("misc", y), 0) for y in years_set)
+            (venue_dir / "_index.md").write_text(
+                build_misc_index(total_misc), encoding="utf-8"
+            )
+        else:
+            (venue_dir / "_index.md").write_text(
+                build_venue_index(venue, years_set, paper_counts, _VENUES), encoding="utf-8"
+            )
 
     if STATIC_PAGES_DIR.exists():
         for src in STATIC_PAGES_DIR.rglob("*"):

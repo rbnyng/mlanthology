@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "minsky1969misc-perceptrons",
+  "title": "Perceptrons: An Introduction to Computational Geometry",
+  "authors": [
+    {
+      "given": "Marvin",
+      "family": "Minsky",
+      "slug": "minsky-marvin"
+    },
+    {
+      "given": "Seymour",
+      "family": "Papert",
+      "slug": "papert-seymour"
+    }
+  ],
+  "year": "1969",
+  "venue": "misc",
+  "venue_name": "MIT Press",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "This book is about perceptrons — the simplest learning machines. However, our deeper purpose is to gain more general insights into the interconnected subjects of parallel computation, pattern recognition, knowledge representation, and learning. It is only because one cannot think productively about such matters without studying specific examples that we focus on theories of perceptrons.",
+  "pdf_url": "https://rodsmith.nz/wp-content/uploads/Minsky-and-Papert-Perceptrons.pdf",
+  "venue_url": "",
+  "doi": "10.7551/mitpress/11301.001.0001",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

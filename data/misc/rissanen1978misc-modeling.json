@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "rissanen1978misc-modeling",
+  "title": "Modeling by Shortest Data Description",
+  "authors": [
+    {
+      "given": "Jorma",
+      "family": "Rissanen",
+      "slug": "rissanen-jorma"
+    }
+  ],
+  "year": "1978",
+  "venue": "misc",
+  "venue_name": "Automatica",
+  "venue_type": "misc",
+  "volume": "14",
+  "number": "5",
+  "pages": "465-471",
+  "abstract": "The number of digits it takes to write down an observed sequence x1, …, xN of a time series depends on the model with its parameters that one assumes to have generated the observed data. Accordingly, by finding the model which minimizes the description length one obtains estimates of both the integer-valued structure parameters and the real-valued system parameters.",
+  "pdf_url": "",
+  "venue_url": "",
+  "doi": "10.1016/0005-1098(78)90005-5",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

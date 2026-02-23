@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "robbins1951misc-stochastic",
+  "title": "A Stochastic Approximation Method",
+  "authors": [
+    {
+      "given": "Herbert",
+      "family": "Robbins",
+      "slug": "robbins-herbert"
+    },
+    {
+      "given": "Sutton",
+      "family": "Monro",
+      "slug": "monro-sutton"
+    }
+  ],
+  "year": "1951",
+  "venue": "misc",
+  "venue_name": "Annals of Mathematical Statistics",
+  "venue_type": "misc",
+  "volume": "22",
+  "number": "3",
+  "pages": "400-407",
+  "abstract": "Let $M(x)$ denote the expected value at level $x$ of the response to a certain experiment. $M(x)$ is assumed to be a monotone function of $x$ but is unknown to the experimenter, and it is desired to find the solution $x = \theta$ of the equation $M(x) = \alpha$, where $\alpha$ is a given constant. We give a method for making successive experiments at levels $x_1, x_2, \cdots$ in such a way that $x_n$ will tend to $\theta$ in probability.",
+  "pdf_url": "https://www.columbia.edu/~ww2040/8100F16/RM51.pdf",
+  "venue_url": "",
+  "doi": "10.1214/aoms/1177729586",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

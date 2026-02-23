@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "brooks1991misc-intelligence",
+  "title": "Intelligence without Representation",
+  "authors": [
+    {
+      "given": "Rodney A.",
+      "family": "Brooks",
+      "slug": "brooks-rodney-a"
+    }
+  ],
+  "year": "1991",
+  "venue": "misc",
+  "venue_name": "Artificial Intelligence",
+  "venue_type": "misc",
+  "volume": "47",
+  "number": "",
+  "pages": "139-159",
+  "abstract": "Artificial intelligence research has foundered on the issue of representation. When intelligence is approached in an incremental manner, with strict reliance on interfacing to the real world through perception and action, reliance on representation disappears. In this paper we outline our approach to incrementally building complete intelligent Creatures. The fundamental decomposition of the intelligent system is not into independent information processing units which must interface with each other via representations. Instead, the intelligent system is decomposed into independent and parallel activity producers which all interface directly to the world through perception and action, rather than interface to each other particularly much. The notions of central and peripheral systems evaporate—everything is both central and peripheral. Based on these principles we have built a very successful series of mobile robots which operate without supervision as Creatures in standard office environments.",
+  "pdf_url": "https://people.csail.mit.edu/brooks/papers/representation.pdf",
+  "venue_url": "",
+  "doi": "10.1016/0004-3702(91)90053-M",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

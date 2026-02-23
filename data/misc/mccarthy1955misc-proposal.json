@@ -1,0 +1,41 @@
+{
+  "bibtex_key": "mccarthy1955misc-proposal",
+  "title": "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+  "authors": [
+    {
+      "given": "John",
+      "family": "McCarthy",
+      "slug": "mccarthy-john"
+    },
+    {
+      "given": "Marvin L.",
+      "family": "Minsky",
+      "slug": "minsky-marvin-l"
+    },
+    {
+      "given": "Nathaniel",
+      "family": "Rochester",
+      "slug": "rochester-nathaniel"
+    },
+    {
+      "given": "Claude E.",
+      "family": "Shannon",
+      "slug": "shannon-claude-e"
+    }
+  ],
+  "year": "1955",
+  "venue": "misc",
+  "venue_name": "Dartmouth College",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "We propose that a 2 month, 10 man study of artificial intelligence be carried out during the summer of 1956 at Dartmouth College in Hanover, New Hampshire. The study is to proceed on the basis of the conjecture that every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it. An attempt will be made to find how to make machines use language, form abstractions and concepts, solve kinds of problems now reserved for humans, and improve themselves. We think that a significant advance can be made in one or more of these problems if a carefully selected group of scientists work on it together for a summer.",
+  "pdf_url": "https://parhamdata.com/Dartmouth_1955_Proposal_for_AI_Research.pdf",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

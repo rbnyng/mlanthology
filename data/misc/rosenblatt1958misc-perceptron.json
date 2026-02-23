@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "rosenblatt1958misc-perceptron",
+  "title": "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain",
+  "authors": [
+    {
+      "given": "Frank",
+      "family": "Rosenblatt",
+      "slug": "rosenblatt-frank"
+    }
+  ],
+  "year": "1958",
+  "venue": "misc",
+  "venue_name": "Psychological Review",
+  "venue_type": "misc",
+  "volume": "65",
+  "number": "6",
+  "pages": "386-408",
+  "abstract": "To answer the questions of how information about the physical world is sensed, in what form is information remembered, and how does information retained in memory influence recognition and behavior, a theory is developed for a hypothetical nervous system called a perceptron. The theory serves as a bridge between biophysics and psychology. It is possible to predict learning curves from neurological variables and vice versa. The quantitative statistical approach is fruitful in the understanding of the organization of cognitive systems.",
+  "pdf_url": "https://www.ling.upenn.edu/courses/cogs501/Rosenblatt1958.pdf",
+  "venue_url": "",
+  "doi": "10.1037/h0042519",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

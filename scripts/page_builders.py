@@ -227,6 +227,11 @@ def build_year_index(venue_slug: str, year: str, paper_count: int, venues: dict)
     return f"---\ntype: venue\ntitle: {yaml_scalar(title)}\nvenue_slug: {yaml_scalar(venue_slug)}\nyear: {yaml_scalar(year)}\npaper_count: {paper_count}\n---\n"
 
 
+def build_misc_index(paper_count: int) -> str:
+    """Generate _index.md for the misc (Notable Works) listing page."""
+    return f"---\ntype: misc\ntitle: Notable Works\nvenue_slug: misc\npaper_count: {paper_count}\n---\n"
+
+
 def build_author_page(slug: str, display_name: str, papers: list[dict]) -> str:
     """Generate {slug}.md leaf page for an author."""
     letter = ascii_letter(display_name[0]) if display_name else ""

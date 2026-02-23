@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "cybenko1989misc-approximation",
+  "title": "Approximation by Superpositions of a Sigmoidal Function",
+  "authors": [
+    {
+      "given": "George",
+      "family": "Cybenko",
+      "slug": "cybenko-george"
+    }
+  ],
+  "year": "1989",
+  "venue": "misc",
+  "venue_name": " Mathematics of Control, Signals and Systems",
+  "venue_type": "misc",
+  "volume": "2",
+  "number": "",
+  "pages": "303-314",
+  "abstract": "In this paper we demonstrate that finite linear combinations of compositions of a fixed, univariate function and a set of affine functionals can uniformly approximate any continuous function ofn real variables with support in the unit hypercube; only mild conditions are imposed on the univariate function. Our results settle an open question about representability in the class of single hidden layer neural networks. In particular, we show that arbitrary decision regions can be arbitrarily well approximated by continuous feedforward neural networks with only a single internal, hidden layer and any continuous sigmoidal nonlinearity. The paper discusses approximation properties of other possible types of nonlinearities that might be implemented by artificial neural networks.",
+  "pdf_url": "https://web.njit.edu/~usman/courses/cs675_fall18/10.1.1.441.7873.pdf",
+  "venue_url": "",
+  "doi": "10.1007/BF02551274",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

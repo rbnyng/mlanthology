@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "hopfield1982misc-neural",
+  "title": "Neural Networks and Physical Systems with Emergent Collective Computational Abilities",
+  "authors": [
+    {
+      "given": "John J.",
+      "family": "Hopfield",
+      "slug": "hopfield-john-j"
+    }
+  ],
+  "year": "1982",
+  "venue": "misc",
+  "venue_name": "Proceedings of the National Academy of Sciences",
+  "venue_type": "misc",
+  "volume": "79",
+  "number": "8",
+  "pages": "2554-2558",
+  "abstract": "Computational properties of use of biological organisms or to the construction of computers can emerge as collective properties of systems having a large number of simple equivalent components (or neurons). The physical meaning of content-addressable memory is described by an appropriate phase space flow of the state of a system. A model of such a system is given, based on aspects of neurobiology but readily adapted to integrated circuits. The collective properties of this model produce a content-addressable memory which correctly yields an entire memory from any subpart of sufficient size. The algorithm for the time evolution of the state of the system is based on asynchronous parallel processing. Additional emergent collective properties include some capacity for generalization, familiarity recognition, categorization, error correction, and time sequence retention. The collective properties are only weakly sensitive to details of the modeling or the failure of individual devices.",
+  "pdf_url": "https://www.pnas.org/doi/epdf/10.1073/pnas.79.8.2554",
+  "venue_url": "",
+  "doi": "10.1073/pnas.79.8.2554",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

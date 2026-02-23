@@ -1,0 +1,28 @@
+{
+  "bibtex_key": "lighthill1973misc-artificial",
+  "title": "Artificial Intelligence: A General Survey",
+  "authors": [
+    {
+      "given": "James",
+      "family": "Lighthill",
+      "slug": "lighthill-james"
+    }
+  ],
+  "year": "1973",
+  "venue": "misc",
+  "venue_name": "UK Science Research Council",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "The Science Research Council has been receiving an increasing number of applications for research support in the rather broad field with mathematical, engineering and biological aspects which often goes under the general description Artificial Intelligence (AI). The research support applied for is sufficient in volume, and in variety of discipline involved, to demand that a general view of the field be taken by the Council itself. In forming such a view the Council has available to it a great deal of specialist information through its structure of Boards and Committees; particularly from the Engineering Board and its Computing Science Committee and from the Science Board and its Biological Sciences Committee. These include specialised reports on the contribution of AI to practical aims on the one hand and to basic neurobiology on the other, as well as a large volume of detailed recommendations on grant applications.
+
+To supplement the important mass of specialist and detailed information available to the Science Research Council, its Chairman decided to commission an independent report by someone outside the AI field but with substantial general experience of research work in multidisciplinary fields including fields with mathematical, engineering and biological aspects. I undertook to make such an independent report, on the understanding that it would simply describe how AI appears to a lay person after two months spent looking through the literature of the subject and discussing it orally and by letter with a variety of workers in the field and in closely related areas of research. Such a personal view of the subject might be helpful to other lay persons such as Council members in the process of preparing to study specialist reports and recommendations and working towards detailed policy formation and decision taking.",
+  "pdf_url": "https://rodsmith.nz/wp-content/uploads/Lighthill_1973_Report.pdf",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

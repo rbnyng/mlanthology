@@ -1,0 +1,29 @@
+{
+  "bibtex_key": "solomonoff1964misc-formal",
+  "title": "A Formal Theory of Inductive Inference, Part I",
+  "authors": [
+    {
+      "given": "Ray J.",
+      "family": "Solomonoff",
+      "slug": "solomonoff-ray-j"
+    }
+  ],
+  "year": "1964",
+  "venue": "misc",
+  "venue_name": "Information and Control",
+  "venue_type": "misc",
+  "volume": "7",
+  "number": "1",
+  "pages": "1-22",
+  "abstract": "In Part I, four ostensibly different theoretical models of induction are presented, in which the problem dealt with is the extrapolation of a very long sequence of symbols—presumably containing all of the information to be used in the induction. Almost all, if not all problems in induction can be put in this form.
+Some strong heuristic arguments have been obtained for the equivalence of the last three models. One of these models is equivalent to a Bayes formulation, in which a priori probabilities are assigned to sequences of symbols on the basis of the lengths of inputs to a universal Turing machine that are required to produce the sequence of interest as output.
+Though it seems likely, it is not certain whether the first of the four models is equivalent to the other three.
+Few rigorous results are presented. Informal investigations are made of the properties of these models. There are discussions of their consistency and meaningfulness, of their degree of independence of the exact nature of the Turing machine used, and of the accuracy of their predictions in comparison to those of other induction methods.",
+  "pdf_url": "https://raysolomonoff.com/publications/1964pt1.pdf",
+  "venue_url": "",
+  "doi": "10.1016/S0019-9958(64)90223-2",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

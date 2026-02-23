@@ -1,0 +1,45 @@
+{{ define "main" }}
+
+{{ $misc := site.Data.misc_sections }}
+
+<section class="misc-page" data-pagefind-body>
+  <h1>{{ $misc.title }}</h1>
+  <p class="misc-subtitle">{{ $misc.description }}</p>
+  <p class="misc-count">{{ .Params.paper_count }} works spanning 1763&ndash;2019.</p>
+
+  {{ range $misc.sections }}
+  <div class="misc-section">
+    <h2 class="misc-section-title">{{ .title }}</h2>
+    <div class="misc-entries">
+      {{ range .entries }}
+        {{ $path := printf "/misc/%s/%s" .year .key }}
+        {{ $page := site.GetPage $path }}
+        {{ if $page }}
+        <div class="misc-entry">
+          <div class="misc-entry-header">
+            <span class="misc-entry-year">{{ .year }}</span>
+            <a href="{{ $page.RelPermalink }}" class="misc-entry-title">{{ $page.Title }}</a>
+          </div>
+          <div class="misc-entry-authors">
+            {{- range $i, $a := $page.Params.paper_authors -}}
+              {{- if $i }}, {{ end -}}
+              <a href="{{ (printf "authors/%s/%s/" (lower $a.letter) $a.slug) | relURL }}">{{ $a.given }} {{ $a.family }}</a>
+            {{- end -}}
+          </div>
+          <div class="misc-entry-venue">{{ $page.Params.venue_name }}</div>
+          <p class="misc-entry-description">{{ .description }}</p>
+          <div class="misc-entry-links">
+            {{ with $page.Params.pdf_url }}<a href="{{ . }}">PDF</a>{{ end }}
+            {{ with $page.Params.venue_url }}<a href="{{ . }}">Source</a>{{ end }}
+            {{ with $page.Params.doi }}<a href="https://doi.org/{{ . }}">DOI</a>{{ end }}
+            <a href="{{ $page.RelPermalink }}">Details</a>
+          </div>
+        </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+</section>
+
+{{ end }}

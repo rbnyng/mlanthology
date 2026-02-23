@@ -1,0 +1,36 @@
+{
+  "bibtex_key": "dempster1977misc-maximum",
+  "title": "Maximum Likelihood from Incomplete Data via the EM Algorithm",
+  "authors": [
+    {
+      "given": "Arthur P.",
+      "family": "Dempster",
+      "slug": "dempster-arthur-p"
+    },
+    {
+      "given": "Nan M.",
+      "family": "Laird",
+      "slug": "laird-nan-m"
+    },
+    {
+      "given": "Donald B.",
+      "family": "Rubin",
+      "slug": "rubin-donald-b"
+    }
+  ],
+  "year": "1977",
+  "venue": "misc",
+  "venue_name": "Journal of the Royal Statistical Society, Series B",
+  "venue_type": "misc",
+  "volume": "39",
+  "number": "1",
+  "pages": "1-38",
+  "abstract": "A broadly applicable algorithm for computing maximum likelihood estimates from incomplete data is presented at various levels of generality. Theory showing the monotone behaviour of the likelihood and convergence of the algorithm is derived. Many examples are sketched, including missing value situations, applications to grouped, censored or truncated data, finite mixture models, variance component estimation, hyperparameter estimation, iteratively reweighted least squares and factor analysis.",
+  "pdf_url": "https://www.ece.iastate.edu/~namrata/EE527_Spring08/Dempster77.pdf",
+  "venue_url": "",
+  "doi": "10.1111/j.2517-6161.1977.tb01600.x",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "watkins1989misc-learning",
+  "title": "Learning from Delayed Rewards",
+  "authors": [
+    {
+      "given": "Christopher J. C. H.",
+      "family": "Watkins",
+      "slug": "watkins-christopher-j-c-h"
+    }
+  ],
+  "year": "1989",
+  "venue": "misc",
+  "venue_name": "PhD thesis, University of Cambridge",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": " The thesis introduces the notion of reinforcement learning as learning to control a Markov Decision Process by incremental dynamic programming, and describes a range of algorithms for doing this, including Q-learning, for which a sketch of a proof of convergence is given.",
+  "pdf_url": "https://www.cs.rhul.ac.uk/~chrisw/new_thesis.pdf",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

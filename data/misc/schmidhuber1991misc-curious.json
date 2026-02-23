@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "schmidhuber1991misc-curious",
+  "title": "Curious Model-Building Control Systems",
+  "authors": [
+    {
+      "given": "Jürgen",
+      "family": "Schmidhuber",
+      "slug": "schmidhuber-jurgen"
+    }
+  ],
+  "year": "1991",
+  "venue": "misc",
+  "venue_name": "IJCNN",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "A novel curious model-building control system is described which actively tries to provoke situations for which it learned to expect to learn something about the environment. Such a system has been implemented as a four-network system based on Watkins' Q-learning algorithm which can be used to maximize the expectation of the temporal derivative of the adaptive assumed reliability of future predictions. An experiment with an artificial nondeterministic environment demonstrates that the system can be superior to previous model-building control systems, which do not address the problem of modeling the reliability of the world model's predictions in uncertain environments and use ad-hoc methods (like random search) to train the world model.",
+  "pdf_url": "https://sferics.idsia.ch/pub/juergen/curioussingapore.pdf",
+  "venue_url": "",
+  "doi": "10.1109/IJCNN.1991.170605",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

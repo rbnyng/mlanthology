@@ -895,6 +895,293 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   color: var(--text-secondary);
   white-space: pre;
 }
+/* Notable Works — homepage callout */
+.notable-works-callout {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 0 1rem;
+  text-align: center;
+}
+.notable-works-callout::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--border);
+  margin: 0 auto 2rem;
+}
+.notable-works-link {
+  display: block;
+  padding: 1.5rem 2rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.notable-works-link:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.notable-works-link h2 {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.notable-works-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+.notable-works-count {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  margin-top: 0.5rem;
+}
+
+/* Notable Works — listing page */
+.misc-page {
+  padding: 2.5rem 0;
+}
+.misc-page > h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.misc-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 0.25rem;
+}
+.misc-count {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+.misc-section {
+  margin-bottom: 3rem;
+}
+.misc-section-title {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.misc-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.misc-entry {
+  padding: 1rem 0;
+}
+.misc-entry + .misc-entry {
+  border-top: 1px dotted var(--border);
+}
+.misc-entry-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.misc-entry-year {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  min-width: 3.2rem;
+}
+.misc-entry-title {
+  font-weight: 600;
+  line-height: 1.4;
+}
+.misc-entry-authors {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  padding-left: 3.95rem;
+}
+.misc-entry-venue {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.15rem;
+  padding-left: 3.95rem;
+}
+.misc-entry-description {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  padding-left: 3.95rem;
+}
+.misc-entry-links {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 0;
+  align-items: baseline;
+  padding-left: 3.95rem;
+}
+.misc-entry-links a {
+  font-size: 0.88rem;
+  color: var(--accent);
+  transition: color 0.2s;
+}
+.misc-entry-links a:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+.misc-entry-links > * + *::before {
+  content: "\b7";
+  margin: 0 0.5rem;
+  color: var(--text-secondary);
+  display: inline-block;
+}
+
+/* Paper transcription body */
+.paper-transcription {
+  margin: 2.5rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+}
+.paper-transcription > h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+.paper-transcription h2 ~ h2,
+.paper-transcription h3,
+.paper-transcription h4 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.paper-transcription h2 ~ h2 {
+  font-size: 1.35rem;
+}
+.paper-transcription h3 {
+  font-size: 1.15rem;
+}
+.paper-transcription h4 {
+  font-size: 1.05rem;
+}
+.paper-transcription p {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  text-align: justify;
+  hyphens: auto;
+}
+.paper-transcription ul,
+.paper-transcription ol {
+  margin-bottom: 1rem;
+  padding-left: 1.75rem;
+  line-height: 1.8;
+}
+.paper-transcription li {
+  margin-bottom: 0.35rem;
+}
+.paper-transcription blockquote {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.paper-transcription blockquote p {
+  margin-bottom: 0.5rem;
+}
+.paper-transcription blockquote p:last-child {
+  margin-bottom: 0;
+}
+.paper-transcription pre {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.paper-transcription code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+.paper-transcription p code {
+  padding: 0.1em 0.3em;
+  background: var(--badge-bg);
+  border-radius: 3px;
+}
+.paper-transcription table {
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+.paper-transcription th,
+.paper-transcription td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.paper-transcription th {
+  background: var(--badge-bg);
+  font-weight: 600;
+}
+.paper-transcription img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+}
+.paper-transcription hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+/* Theorem / definition / lemma blocks — use <div class="theorem"> in transcriptions */
+.paper-transcription .theorem,
+.paper-transcription .definition,
+.paper-transcription .lemma,
+.paper-transcription .proposition,
+.paper-transcription .corollary,
+.paper-transcription .remark,
+.paper-transcription .proof {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--border);
+  background: var(--card-bg);
+  border-radius: 0 4px 4px 0;
+}
+.paper-transcription .theorem {
+  border-left-color: var(--accent);
+}
+.paper-transcription .proof {
+  border-left-style: dashed;
+  background: none;
+}
+/* Footnotes rendered by goldmark */
+.paper-transcription .footnotes {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.paper-transcription .footnotes p {
+  font-size: 0.9rem;
+  text-align: left;
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--border);
@@ -929,6 +1216,12 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .paper-detail h1 { font-size: 1.5rem; }
   .paper-abstract { padding: 1.25rem 0; }
   .container { padding: 0 1.25rem; }
+  .misc-entry-authors,
+  .misc-entry-venue,
+  .misc-entry-description,
+  .misc-entry-links { padding-left: 0; }
+  .misc-entry-header { flex-direction: column; gap: 0.15rem; }
+  .notable-works-link { padding: 1.25rem 1.25rem; }
 }
 
 /* Touch targets — ensure minimum 44px tap areas */

@@ -1,0 +1,27 @@
+{
+  "bibtex_key": "selfridge1959misc-pandemonium",
+  "title": "Pandemonium: A Paradigm for Learning",
+  "authors": [
+    {
+      "given": "Oliver G.",
+      "family": "Selfridge",
+      "slug": "selfridge-oliver-g"
+    }
+  ],
+  "year": "1959",
+  "venue": "misc",
+  "venue_name": "Mechanisation of Thought Processes, HMSO London",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "511-529",
+  "abstract": "We are proposing here a model of a process which we claim can adaptively improve itself to handle certain pattern recognition problems which cannot be adequately specified in advance. Such problems are usual when trying to build a machine to imitate any one of a very large class of human data processing techniques. A speech typewriter is a good example of something that very many people have been trying unsuccessfully to build for some time.
+We do not suggest that we have proposed a model which can learn to typewrite from merely hearing speech. Pandemonium does not, however, seem on paper to have the same kinds of inherent restrictions or inflexibility that many previous proposals have had. The basic motif behind our model is the notion of parallel processing. This is suggested on two grounds: first, it is often easier to handle data in a parallel manner, and, indeed, it is usually the more "natural" manner to handle it in; and, secondly, it is easier to modify an assembly of quasi-independent modules than a machine all of whose parts interact immediately and in a complex way.",
+  "pdf_url": "http://www.incompleteideas.net/papers/pandemonium2.pdf",
+  "venue_url": "",
+  "doi": "10.7551/mitpress/4943.003.0011",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

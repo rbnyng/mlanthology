@@ -96,4 +96,18 @@
   </div>
   {{ end }}
 </section>
+
+{{/* Notable Works callout — links to /misc/ curated collection */}}
+{{ $miscPage := site.GetPage "/misc" }}
+{{ with $miscPage }}
+  {{ $misc := site.Data.misc_sections }}
+  <section class="notable-works-callout">
+    <a href="{{ .RelPermalink }}" class="notable-works-link">
+      <h2>Notable Works</h2>
+      <p class="notable-works-description">{{ $misc.subtitle }}</p>
+      <p class="notable-works-count">{{ .Params.paper_count }} works &mdash; Browse &rarr;</p>
+    </a>
+  </section>
+{{ end }}
+
 {{ end }}

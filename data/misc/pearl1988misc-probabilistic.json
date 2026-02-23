@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "pearl1988misc-probabilistic",
+  "title": "Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference",
+  "authors": [
+    {
+      "given": "Judea",
+      "family": "Pearl",
+      "slug": "pearl-judea"
+    }
+  ],
+  "year": "1988",
+  "venue": "misc",
+  "venue_name": "Morgan Kaufmann",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "Probabilistic Reasoning in Intelligent Systems is a complete and accessible account of the theoretical foundations and computational methods that underlie plausible reasoning under uncertainty. The author provides a coherent explication of probability as a language for reasoning with partial belief and offers a unifying perspective on other AI approaches to uncertainty, such as the Dempster-Shafer formalism, truth maintenance systems, and nonmonotonic logic.",
+  "pdf_url": "",
+  "venue_url": "",
+  "doi": "10.1016/c2009-0-27609-4",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

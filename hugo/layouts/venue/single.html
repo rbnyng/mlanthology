@@ -46,6 +46,13 @@
     <a href="https://www.semanticscholar.org/search?q={{ .Title | urlquery }}" target="_blank" rel="noopener">Semantic Scholar</a>
   </div>
 
+  {{ if .Params.transcribed }}
+  <div class="paper-transcription">
+    <h2>Full Text</h2>
+    {{ .Content }}
+  </div>
+  {{ end }}
+
   <div class="paper-cite" data-pagefind-ignore>
     <h2>Cite</h2>
     {{/* Build author display string for text/markdown citations */}}

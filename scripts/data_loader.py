@@ -1,9 +1,10 @@
 """Data loading for the Hugo content builder.
 
-Loads papers from data/papers/*.json.gz, data/backlog/, and data/legacy/
-into a unified list of paper dicts.
+Loads papers from data/papers/*.json.gz, data/misc/*.json, data/backlog/,
+and data/legacy/ into a unified list of paper dicts.
 """
 
+import json
 from pathlib import Path
 
 from adapters.common import read_venue_json
@@ -21,6 +22,17 @@ def _load_gzipped_jsonl(directory: Path) -> list[dict]:
         return papers
     for gz_file in sorted(directory.glob("*.jsonl.gz")):
         papers.extend(read_legacy(gz_file))
+    return papers
+
+
+def _load_loose_json(directory: Path) -> list[dict]:
+    """Load individual JSON paper files from a directory."""
+    papers: list[dict] = []
+    if not directory.exists():
+        return papers
+    for jf in sorted(directory.glob("*.json")):
+        with open(jf, encoding="utf-8") as f:
+            papers.append(json.load(f))
     return papers
 
 
@@ -45,10 +57,17 @@ def load_all_papers(
     papers.extend(backlog_papers)
     papers.extend(legacy_papers)
 
+    # Load loose JSON files from data/misc/
+    misc_dir = data_dir.parent / "misc"
+    misc_papers = _load_loose_json(misc_dir)
+    papers.extend(misc_papers)
+
     parts = [f"{json_count} data files"]
     if backlog_papers:
         parts.append(f"{len(backlog_papers)} backlog")
     if legacy_papers:
         parts.append(f"{len(legacy_papers)} legacy")
+    if misc_papers:
+        parts.append(f"{len(misc_papers)} misc")
     print(f"  Loaded {len(papers)} papers from {', '.join(parts)}")
     return papers

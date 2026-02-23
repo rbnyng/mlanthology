@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "turing1950misc-computing",
+  "title": "Computing Machinery and Intelligence",
+  "authors": [
+    {
+      "given": "Alan M.",
+      "family": "Turing",
+      "slug": "turing-alan-m"
+    }
+  ],
+  "year": "1950",
+  "venue": "misc",
+  "venue_name": "Mind",
+  "venue_type": "misc",
+  "volume": "59",
+  "number": "236",
+  "pages": "433-460",
+  "abstract": "I propose to consider the question, “Can machines think?”♣ This should begin with definitions of the meaning of the terms “machine” and “think”. The definitions might be framed so as to reflect so far as possible the normal use of the words, but this attitude is dangerous. If the meaning of the words “machine” and “think” are to be found by examining how they are commonly used it is difficult to escape the conclusion that the meaning and the answer to the question, “Can machines think?” is to be sought in a statistical survey such as a Gallup poll.",
+  "pdf_url": "https://courses.cs.umbc.edu/471/papers/turing.pdf",
+  "venue_url": "",
+  "doi": "10.1093/mind/LIX.236.433",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}
