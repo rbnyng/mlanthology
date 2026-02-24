@@ -32,7 +32,7 @@ def _load_loose_json(directory: Path) -> list[dict]:
         return papers
     for jf in sorted(directory.glob("*.json")):
         with open(jf, encoding="utf-8") as f:
-            papers.append(json.load(f))
+            papers.append(json.loads(f.read(), strict=False))
     return papers
 
 

@@ -11,7 +11,7 @@ enableRobotsTXT = true
 [taxonomies]
 
 [outputs]
-  home = ["HTML", "sitemap"]
+  home = ["HTML"]
   section = ["HTML"]
   
 [markup]

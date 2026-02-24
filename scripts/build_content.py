@@ -12,6 +12,7 @@ import sys
 import time
 from pathlib import Path
 from collections import defaultdict
+from xml.sax.saxutils import escape as xml_escape
 
 import yaml
 
@@ -45,8 +46,12 @@ BACKLOG_DIR = ROOT / "data" / "backlog"
 TRANSCRIPTIONS_DIR = ROOT / "data" / "misc" / "transcriptions"
 CONTENT_DIR = ROOT / "hugo" / "content"
 STATIC_PAGES_DIR = ROOT / "hugo" / "static_pages"
+STATIC_DIR = ROOT / "hugo" / "static"
 AUTHORS_DIR = CONTENT_DIR / "authors"
 VENUES_YAML = ROOT / "hugo" / "data" / "venues.yaml"
+
+BASE_URL = "https://mlanthology.org"
+MAX_URLS_PER_SITEMAP = 50_000
 
 # prefer C-accelerated YAML loader when available
 try:
@@ -150,6 +155,48 @@ def _write_author_letter_worker(letter_and_slugs: tuple) -> tuple:
         written += 1
 
     return written, skipped, stale_count
+
+
+def generate_sitemaps(urls: list[str]) -> None:
+    """Generate a sitemap index with split sitemap files (≤50k URLs each)."""
+    STATIC_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Clean old sitemap files
+    for old in STATIC_DIR.glob("sitemap*.xml"):
+        old.unlink()
+
+    # Split into chunks of MAX_URLS_PER_SITEMAP
+    chunks = [
+        urls[i : i + MAX_URLS_PER_SITEMAP]
+        for i in range(0, len(urls), MAX_URLS_PER_SITEMAP)
+    ]
+
+    sitemap_filenames = []
+    for idx, chunk in enumerate(chunks):
+        filename = f"sitemap-{idx}.xml"
+        sitemap_filenames.append(filename)
+
+        lines = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        ]
+        for url in chunk:
+            lines.append(f"  <url><loc>{xml_escape(url)}</loc></url>")
+        lines.append("</urlset>")
+
+        (STATIC_DIR / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    # Write sitemap index
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for filename in sitemap_filenames:
+        lines.append(f"  <sitemap><loc>{BASE_URL}/{filename}</loc></sitemap>")
+    lines.append("</sitemapindex>")
+
+    (STATIC_DIR / "sitemap.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"Sitemaps: {len(urls)} URLs across {len(chunks)} file(s)")
 
 
 def _clean_venue_dirs(venue_slugs: set[str]) -> None:
@@ -328,6 +375,42 @@ def build_all(sample: bool = False):
                 dest = CONTENT_DIR / src.relative_to(STATIC_PAGES_DIR)
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src, dest)
+
+    # -- Generate split sitemaps ------------------------------------------
+    sitemap_urls = [f"{BASE_URL}/"]  # home
+
+    # Venue + year index pages
+    for venue, years_set in venue_years.items():
+        sitemap_urls.append(f"{BASE_URL}/{venue}/")
+        for yr in sorted(years_set, reverse=True):
+            sitemap_urls.append(f"{BASE_URL}/{venue}/{yr}/")
+
+    # Individual paper pages
+    for (venue, year), papers in papers_by_venue_year.items():
+        for paper in papers:
+            pid = paper.get("bibtex_key", "").replace("/", "-")
+            if pid:
+                sitemap_urls.append(f"{BASE_URL}/{venue}/{year}/{pid}/")
+
+    # Author pages
+    sitemap_urls.append(f"{BASE_URL}/authors/")
+    for letter, slugs in authors_by_letter.items():
+        sitemap_urls.append(f"{BASE_URL}/authors/{letter.lower()}/")
+        for slug in slugs:
+            sitemap_urls.append(f"{BASE_URL}/authors/{letter.lower()}/{slug}/")
+
+    # Static pages (about, search, privacy, license)
+    if STATIC_PAGES_DIR.exists():
+        for src in STATIC_PAGES_DIR.rglob("*.md"):
+            rel = src.relative_to(STATIC_PAGES_DIR)
+            if rel.name == "_index.md":
+                url_path = str(rel.parent)
+            else:
+                url_path = str(rel.with_suffix(""))
+            if url_path != ".":
+                sitemap_urls.append(f"{BASE_URL}/{url_path}/")
+
+    generate_sitemaps(sitemap_urls)
 
     t_end = time.time()
     print(f"Total build time: {t_end - t_start:.1f}s")
