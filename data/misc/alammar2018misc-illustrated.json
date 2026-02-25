@@ -1,0 +1,23 @@
+{
+  "bibtex_key": "alammar2018misc-illustrated",
+  "title": "The Illustrated Transformer",
+  "authors": [
+    {
+      "given": "Jay",
+      "family": "Alammar",
+      "slug": "alammar-jay"
+    }
+  ],
+  "year": "2018",
+  "venue": "misc",
+  "venue_name": "Blog post",
+  "venue_type": "misc",
+  "abstract": "The Transformer was proposed in the paper Attention is All You Need. A TensorFlow implementation of it is available as a part of the Tensor2Tensor package. Harvard’s NLP group created a guide annotating the paper with PyTorch implementation. In this post, we will attempt to oversimplify things a bit and introduce the concepts one by one to hopefully make it easier to understand to people without in-depth knowledge of the subject matter.",
+  "pdf_url": "",
+  "venue_url": "https://jalammar.github.io/illustrated-transformer/",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

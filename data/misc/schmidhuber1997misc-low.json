@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "schmidhuber1997misc-low",
+  "title": "Low-Complexity Art",
+  "authors": [
+    {
+      "given": "Jürgen",
+      "family": "Schmidhuber",
+      "slug": "schmidhuber-jurgen"
+    }
+  ],
+  "year": "1997",
+  "venue": "misc",
+  "venue_name": "Leonardo, Journal of the International Society for the Arts, Sciences and Technology",
+  "venue_type": "misc",
+  "volume": "30",
+  "number": "2",
+  "pages": "97-103",
+  "abstract": "Many artists when representing an object try to convey its \"essence.\" In an attempt to formalize certain aspects of depicting the essence of objects, the author proposes an art from called low-complexity art. It may be viewed as the computer-age equivalent of minimal art. Its goals are based on concepts from algorithmic information theory. A low-complexity artwork can be specified by a computer algorithm and should comply with two properties: (1) the drawing should \"look right,\" and (2) the Kolmogorov complexity of the drawing should be small (the algorithm should be short) and a typical observer should be able to see this. Examples of low-complexity art are given in the form of algorithmically simple cartoons of various objects. Attempts are made to relate the formalism of the theory of minimum description length to informal notions such as \"good artistic style\" and \"beauty.\"",
+  "pdf_url": "https://sferics.idsia.ch/pub/juergen/locoart.pdf",
+  "venue_url": "",
+  "doi": "10.2307/1576418",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

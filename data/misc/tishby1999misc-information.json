@@ -1,0 +1,34 @@
+{
+  "bibtex_key": "tishby1999misc-information",
+  "title": "The Information Bottleneck Method",
+  "authors": [
+    {
+      "given": "Naftali",
+      "family": "Tishby",
+      "slug": "tishby-naftali"
+    },
+    {
+      "given": "Fernando C.",
+      "family": "Pereira",
+      "slug": "pereira-fernando-c"
+    },
+    {
+      "given": "William",
+      "family": "Bialek",
+      "slug": "bialek-william"
+    }
+  ],
+  "year": "1999",
+  "venue": "misc",
+  "venue_name": "Proceedings of the 37th Annual Allerton Conference on Communication, Control, and Computing",
+  "venue_type": "misc",
+  "pages": "368-377",
+  "abstract": "We define the relevant information in a signal $x \\in X$ as being the information that this signal provides about another signal $y \\in Y$. Examples include the information that face images provide about the names of the people portrayed, or the information that speech sounds provide about the words spoken. Understanding the signal $x$ requires more than just predicting $y$, it also requires specifying which features of $X$ play a role in the prediction. We formalize this problem as that of finding a short code for $X$ that preserves the maximum information about $Y$.",
+  "pdf_url": "https://arxiv.org/pdf/physics/0004057",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}
