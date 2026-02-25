@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "cover1991misc-elements",
+  "title": "Elements of Information Theory",
+  "authors": [
+    {
+      "given": "Thomas M.",
+      "family": "Cover",
+      "slug": "cover-thomas-m"
+    },
+    {
+      "given": "Joy A.",
+      "family": "Thomas",
+      "slug": "thomas-joy-a"
+    }
+  ],
+  "year": "1991",
+  "venue": "misc",
+  "venue_name": "Wiley",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "Following a brief introduction and overview, early chapters cover the basic algebraic relationships of entropy, relative entropy and mutual information, AEP, entropy rates of stochastic processes and data compression, duality of data compression and the growth rate of wealth. Later chapters explore Kolmogorov complexity, channel capacity, differential entropy, the capacity of the fundamental Gaussian channel, the relationship between information theory and statistics, rate distortion and network information theories.",
+  "pdf_url": "",
+  "venue_url": "https://onlinelibrary.wiley.com/doi/book/10.1002/0471200611",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": "ISBN:978-0-471-06259-2"
+}

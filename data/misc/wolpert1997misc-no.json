@@ -1,0 +1,31 @@
+{
+  "bibtex_key": "wolpert1997misc-no",
+  "title": "No Free Lunch Theorems for Optimization",
+  "authors": [
+    {
+      "given": "David H.",
+      "family": "Wolpert",
+      "slug": "wolpert-david-h"
+    },
+    {
+      "given": "William G.",
+      "family": "Macready",
+      "slug": "macready-william-g"
+    }
+  ],
+  "year": "1997",
+  "venue": "misc",
+  "venue_name": "IEEE Transactions on Evolutionary Computation",
+  "venue_type": "misc",
+  "volume": "1",
+  "number": "1",
+  "pages": "67-82",
+  "abstract": "A number of no free lunch theorems are presented which establish that for any algorithm, any elevated performance over one class of problems is offset by performance over another class.",
+  "pdf_url": "https://www.cs.ubc.ca/~hutter/earg/papers07/00585893.pdf",
+  "venue_url": "",
+  "doi": "10.1109/4235.585893",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

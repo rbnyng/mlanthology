@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "asimov1942misc-runaround",
+  "title": "Runaround",
+  "authors": [
+    {
+      "given": "Isaac",
+      "family": "Asimov",
+      "slug": "asimov-isaac"
+    }
+  ],
+  "year": "1942",
+  "venue": "misc",
+  "venue_name": "Astounding Science Fiction",
+  "venue_type": "misc",
+  "volume": "29",
+  "number": "1",
+  "pages": "94-103",
+  "abstract": "Asimov did not write academic abstracts. This summary was written for the ML Anthology. On Mercury in 2015, engineers Gregory Powell and Mike Donovan face a crisis when their advanced robot, Speedy, fails to complete a simple selenium retrieval mission. Investigation reveals the robot is caught in an endless loop between conflicting directives: the Second Law (obey orders) driving it toward the selenium pool, and an unusually strong Third Law (self-preservation) driving it away from the hazardous environment. The story marks the first explicit appearance of the Three Laws of Robotics, a hierarchical constraint framework for artificial agents that has influenced subsequent discussions of AI safety and alignment.",
+  "pdf_url": "",
+  "venue_url": "",
+  "doi": "",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

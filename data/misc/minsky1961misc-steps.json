@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "minsky1961misc-steps",
+  "title": "Steps Toward Artificial Intelligence",
+  "authors": [
+    {
+      "given": "Marvin",
+      "family": "Minsky",
+      "slug": "minsky-marvin"
+    }
+  ],
+  "year": "1961",
+  "venue": "misc",
+  "venue_name": "Proceedings of the IRE",
+  "venue_type": "misc",
+  "volume": "49",
+  "number": "1",
+  "pages": "8-30",
+  "abstract": "The problems of heuristic programming — of making computers solve really difficult problems — are divided into five main areas: Search, Pattern-Recognition, Learning, Planning, and Induction.",
+  "pdf_url": "https://courses.csail.mit.edu/6.803/pdf/steps.pdf",
+  "venue_url": "",
+  "doi": "10.1109/JRPROC.1961.287775",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

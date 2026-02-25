@@ -5,7 +5,7 @@
 <section class="misc-page" data-pagefind-body>
   <h1>{{ $misc.title }}</h1>
   <p class="misc-subtitle">{{ $misc.description }}</p>
-  <p class="misc-count">{{ .Params.paper_count }} works spanning 1763&ndash;2019.</p>
+  <p class="misc-count">{{ .Params.paper_count }} works spanning {{ .Params.year_min }}&ndash;{{ .Params.year_max }}.</p>
 
   {{ range $misc.sections }}
   <div class="misc-section">

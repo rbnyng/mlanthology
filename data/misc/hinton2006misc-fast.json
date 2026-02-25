@@ -1,0 +1,36 @@
+{
+  "bibtex_key": "hinton2006misc-fast",
+  "title": "A Fast Learning Algorithm for Deep Belief Nets",
+  "authors": [
+    {
+      "given": "Geoffrey E.",
+      "family": "Hinton",
+      "slug": "hinton-geoffrey-e"
+    },
+    {
+      "given": "Simon",
+      "family": "Osindero",
+      "slug": "osindero-simon"
+    },
+    {
+      "given": "Yee-Whye",
+      "family": "Teh",
+      "slug": "teh-yee-whye"
+    }
+  ],
+  "year": "2006",
+  "venue": "misc",
+  "venue_name": "Neural Computation",
+  "venue_type": "misc",
+  "volume": "18",
+  "number": "7",
+  "pages": "1527-1554",
+  "abstract": "We derive a fast, greedy algorithm that can learn deep, directed belief networks one layer at a time, provided the top two layers form an undirected associative memory. After fine-tuning, a network with three hidden layers forms a very good generative model of the joint distribution of handwritten digit images and their labels.",
+  "pdf_url": "https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf",
+  "venue_url": "",
+  "doi": "10.1162/neco.2006.18.7.1527",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

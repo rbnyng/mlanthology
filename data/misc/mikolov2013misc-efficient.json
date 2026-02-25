@@ -1,0 +1,41 @@
+{
+  "bibtex_key": "mikolov2013misc-efficient",
+  "title": "Efficient Estimation of Word Representations in Vector Space",
+  "authors": [
+    {
+      "given": "Tomas",
+      "family": "Mikolov",
+      "slug": "mikolov-tomas"
+    },
+    {
+      "given": "Kai",
+      "family": "Chen",
+      "slug": "chen-kai"
+    },
+    {
+      "given": "Greg",
+      "family": "Corrado",
+      "slug": "corrado-greg"
+    },
+    {
+      "given": "Jeffrey",
+      "family": "Dean",
+      "slug": "dean-jeffrey"
+    }
+  ],
+  "year": "2013",
+  "venue": "misc",
+  "venue_name": "arXiv",
+  "venue_type": "misc",
+  "volume": "",
+  "number": "",
+  "pages": "",
+  "abstract": "We propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks.",
+  "pdf_url": "https://arxiv.org/pdf/1301.3781",
+  "venue_url": "",
+  "doi": "10.48550/arXiv.1301.3781",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

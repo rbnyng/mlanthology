@@ -1,0 +1,26 @@
+{
+  "bibtex_key": "searle1980misc-minds",
+  "title": "Minds, Brains, and Programs",
+  "authors": [
+    {
+      "given": "John R.",
+      "family": "Searle",
+      "slug": "searle-john-r"
+    }
+  ],
+  "year": "1980",
+  "venue": "misc",
+  "venue_name": "Behavioral and Brain Sciences",
+  "venue_type": "misc",
+  "volume": "3",
+  "number": "3",
+  "pages": "417-457",
+  "abstract": "This article can be viewed as an attempt to explore the consequences of two propositions. (1) Intentionality in human beings (and animals) is a product of causal features of the brain. I assume this is an empirical fact about the actual causal relations between mental processes and brains. It says simply that certain brain processes are sufficient for intentionality. (2) Instantiating a computer program is never by itself a sufficient condition of intentionality. The main argument of this paper is directed at establishing this claim. The form of the argument is to show how a human agent could instantiate the program and still not have the relevant intentionality. These two propositions have the following consequences: (3) The explanation of how the brain produces intentionality cannot be that it does it by instantiating a computer program. This is a strict logical consequence of 1 and 2. (4) Any mechanism capable of producing intentionality must have causal powers equal to those of the brain. This is meant to be a trivial consequence of 1. (5) Any attempt literally to create intentionality artificially (strong AI) could not succeed just by designing programs but would have to duplicate the causal powers of the brain.",
+  "pdf_url": "https://home.csulb.edu/~cwallis/382/readings/482/searle.minds.brains.programs.bbs.1980.pdf",
+  "venue_url": "https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/minds-brains-and-programs/DC644B47A4299C637C89772FACC2706A",
+  "doi": "10.1017/S0140525X00005756",
+  "openreview_url": "",
+  "code_url": "",
+  "source": "manual",
+  "source_id": ""
+}

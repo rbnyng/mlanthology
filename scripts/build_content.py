@@ -361,8 +361,9 @@ def build_all(sample: bool = False):
         venue_dir = CONTENT_DIR / venue
         if venue == "misc":
             total_misc = sum(paper_counts.get(("misc", y), 0) for y in years_set)
+            misc_years = sorted(int(y) for y in years_set)
             (venue_dir / "_index.md").write_text(
-                build_misc_index(total_misc), encoding="utf-8"
+                build_misc_index(total_misc, misc_years[0], misc_years[-1]), encoding="utf-8"
             )
         else:
             (venue_dir / "_index.md").write_text(
