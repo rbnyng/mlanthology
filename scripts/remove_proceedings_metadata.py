@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
 """Remove proceedings/conference metadata entries from legacy data.
 
-Identifies and removes entries that are conference metadata rather than
+Identifies and removes entries that are conference volume metadata rather than
 actual research papers. These are characterized by:
-- Generic titles containing "proceedings", "conference", "symposium", etc.
 - No pages (field is empty or missing)
 - No abstract (field is empty or missing)
-- Often only conference organizers as "authors"
+- Title contains proceedings-volume language (e.g. "Proceedings, Part I",
+  "Proceedings - Florence, Italy") OR
+  DBLP source_id is volume-level (e.g. conf/eccv/2016w1) with no author token
 
 Run on all venues:
     python scripts/remove_proceedings_metadata.py
 
 Single venue, dry-run:
-    python scripts/remove_proceedings_metadata.py --venue aaai --dry-run
+    python scripts/remove_proceedings_metadata.py --venue eccv --dry-run
 """
 
 import argparse
 import gzip
 import json
 import logging
+import re
 import sys
 from pathlib import Path
 
@@ -30,41 +32,47 @@ from scripts.utils import LEGACY_DIR, read_legacy, write_legacy
 
 logger = logging.getLogger(__name__)
 
+# Matches proceedings-volume titles:
+#   "Proceedings, Part I/II/III/IV..."
+#   "Proceedings - Florence, Italy"
+#   "Proceedings, Vol ..."
+#   "Proceedings of the 35th ..."
+#   "2016 Proceedings"
+_VOL_TITLE_RE = re.compile(
+    r"Proceedings[,\s]*(Part\s+[IVX\d]+|Vol|of\s+the\s+\d)"
+    r"|Proceedings\s*[-\u2013]\s+\w"
+    r"|\d{4}\s+Proceedings",
+    re.IGNORECASE,
+)
+
+# DBLP volume-level source_id: conf/venue/YEAR or conf/venue/YEAR-suffix
+# where the suffix contains only lowercase letters, digits, and hyphens.
+# This excludes paper-level IDs like conf/aaai/AlshareefBSH22 (CamelCase author
+# abbreviation) and disambiguation IDs like conf/aaai/0001W22 (uppercase W).
+_VOL_SRC_RE = re.compile(r"^(?:conf|journals)/\w+/\d{4}[-a-z0-9]*$")
+
 
 def is_proceedings_entry(paper: dict) -> bool:
-    """Check if paper is a proceedings/conference metadata entry.
+    """Return True if this record is a proceedings volume, not a paper.
 
-    Heuristics:
-    - Title contains generic conference keywords
-    - No pages
-    - No abstract
+    Requires ALL of:
+      1. No abstract
+      2. No pages
+      3. Volume-like title OR volume-level DBLP source_id
     """
-    title = paper.get("title", "").lower()
-    has_pages = bool(paper.get("pages"))
-    has_abstract = bool(paper.get("abstract"))
+    if paper.get("abstract", "").strip():
+        return False
+    if paper.get("pages", "").strip():
+        return False
 
-    # Generic conference metadata keywords
-    keywords = [
-        "proceedings of the",
-        "conference on",
-        "symposium on",
-        "workshop on",
-        "IEEE International Conference",
-        "European Conference",
-        "International Workshop",
-        "International Conference",
-    ]
+    title = paper.get("title", "")
+    src = paper.get("source_id", "")
 
-    is_generic = any(keyword in title for keyword in keywords)
-
-    # Metadata entries have no pages and no abstract
-    is_likely_metadata = is_generic and not has_pages and not has_abstract
-
-    return is_likely_metadata
+    return bool(_VOL_TITLE_RE.search(title)) or bool(_VOL_SRC_RE.match(src))
 
 
 def process_venue(venue_name: str, dry_run: bool = False) -> dict:
-    """Remove proceedings entries from a venue.
+    """Remove proceedings entries from a venue's legacy file.
 
     Returns: {removed: int, kept: int}
     """
@@ -76,17 +84,26 @@ def process_venue(venue_name: str, dry_run: bool = False) -> dict:
     papers = read_legacy(legacy_path)
     original_count = len(papers)
 
-    # Filter out proceedings entries
-    filtered_papers = [p for p in papers if not is_proceedings_entry(p)]
-    removed_count = original_count - len(filtered_papers)
+    kept = []
+    removed = []
+    for p in papers:
+        if is_proceedings_entry(p):
+            removed.append(p)
+        else:
+            kept.append(p)
 
-    logger.info(f"{venue_name}: {removed_count} removed, {len(filtered_papers)} kept")
+    if removed:
+        logger.info(f"{venue_name}: removing {len(removed)} / {original_count}")
+        for p in removed:
+            logger.info(f"  REMOVE [{p.get('year', '?')}] {p['title']}")
+    else:
+        logger.info(f"{venue_name}: nothing to remove ({original_count} records)")
 
-    if not dry_run and removed_count > 0:
-        write_legacy(legacy_path, filtered_papers, atomic=True)
-        logger.info(f"  Written {len(filtered_papers)} papers to {legacy_path.name}")
+    if not dry_run and removed:
+        write_legacy(legacy_path, kept, atomic=True)
+        logger.info(f"  Written {len(kept)} papers to {legacy_path.name}")
 
-    return {"removed": removed_count, "kept": len(filtered_papers)}
+    return {"removed": len(removed), "kept": len(kept)}
 
 
 def main() -> None:
@@ -106,13 +123,13 @@ def main() -> None:
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-    # Get venues to process
     if args.venue:
         venues = [args.venue]
     else:
-        # Get all legacy venues
-        venues = [f.stem.replace("-legacy.jsonl", "") for f in LEGACY_DIR.glob("*-legacy.jsonl.gz")]
-        venues = sorted(venues)
+        venues = sorted(
+            f.stem.replace("-legacy.jsonl", "")
+            for f in LEGACY_DIR.glob("*-legacy.jsonl.gz")
+        )
 
     mode = "[DRY RUN] " if args.dry_run else ""
     logger.info(f"{mode}Processing {len(venues)} venue(s)")
@@ -125,11 +142,7 @@ def main() -> None:
         grand_removed += stats["removed"]
         grand_kept += stats["kept"]
 
-    print()
-    logger.info(f"{mode}Summary:")
-    logger.info(f"  Total removed: {grand_removed}")
-    logger.info(f"  Total kept: {grand_kept}")
-    logger.info(f"  Final dataset size: {grand_kept}")
+    logger.info(f"{mode}Summary: {grand_removed} removed, {grand_kept} kept")
 
 
 if __name__ == "__main__":
