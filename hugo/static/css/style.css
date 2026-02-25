@@ -993,8 +993,8 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   gap: 0.75rem;
 }
 .misc-entry-year {
-  font-family: var(--mono);
-  font-size: 0.82rem;
+  font-family: var(--font);
+  font-size: 0.88rem;
   color: var(--text-secondary);
   flex-shrink: 0;
   min-width: 3.2rem;
@@ -1018,9 +1018,9 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 }
 .misc-entry-description {
   margin-top: 0.35rem;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   line-height: 1.6;
-  color: var(--text);
+  color: var(--text-secondary);
   padding-left: 3.95rem;
 }
 .misc-entry-links {
@@ -1030,12 +1030,17 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   align-items: baseline;
   padding-left: 3.95rem;
 }
-.misc-entry-links a {
+.misc-entry-links a, .misc-entry-links button {
   font-size: 0.88rem;
+  font-family: var(--font);
   color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   transition: color 0.2s;
 }
-.misc-entry-links a:hover {
+.misc-entry-links a:hover, .misc-entry-links button:hover {
   color: var(--accent-hover);
   text-decoration: none;
 }

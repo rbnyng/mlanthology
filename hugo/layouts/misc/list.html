@@ -30,9 +30,15 @@
           <p class="misc-entry-description">{{ .description }}</p>
           <div class="misc-entry-links">
             {{ with $page.Params.pdf_url }}<a href="{{ . }}">PDF</a>{{ end }}
-            {{ with $page.Params.venue_url }}<a href="{{ . }}">Source</a>{{ end }}
-            {{ with $page.Params.doi }}<a href="https://doi.org/{{ . }}">DOI</a>{{ end }}
-            <a href="{{ $page.RelPermalink }}">Details</a>
+            {{ $authorStr := "" }}{{ range $i, $a := $page.Params.paper_authors }}{{ if $i }}{{ $authorStr = printf "%s and " $authorStr }}{{ end }}{{ $authorStr = printf "%s%s, %s" $authorStr $a.family $a.given }}{{ end }}<button class="copy-btn-inline" data-bibtex-key="{{ $page.Params.bibtex_key }}" data-bibtex="@misc{{ "{" }}{{ $page.Params.bibtex_key }},
+  title        = {{ "{" }}{{ "{" }}{{ $page.Title | htmlUnescape }}{{ "}" }}{{ "}" }},
+  author       = {{ "{" }}{{ $authorStr }}{{ "}" }},{{ with $page.Params.venue_name }}
+  howpublished = {{ "{" }}{{ . }}{{ "}" }},{{ end }}
+  year         = {{ "{" }}{{ $page.Params.year }}{{ "}" }},{{ with $page.Params.pages }}
+  pages        = {{ "{" }}{{ . }}{{ "}" }},{{ end }}{{ with $page.Params.doi }}
+  doi          = {{ "{" }}{{ . }}{{ "}" }},{{ end }}
+  url          = {{ "{" }}{{ $page.Permalink }}{{ "}" }}
+{{ "}" }}">Cite</button>
           </div>
         </div>
         {{ end }}

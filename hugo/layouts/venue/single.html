@@ -89,8 +89,9 @@
     <div class="citation-block">
       <button class="copy-btn" data-clipboard-target="#bibtex-{{ .Params.bibtex_key }}">Copy</button>
       {{ $isJournal := eq .Params.venue_type "journal" }}
-      {{ $entryType := cond $isJournal "article" "inproceedings" }}
-      {{ $venueField := cond $isJournal "journal" "booktitle" }}
+      {{ $isProceedings := in (slice "conference" "workshop") .Params.venue_type }}
+      {{ $entryType := cond $isJournal "article" (cond $isProceedings "inproceedings" "misc") }}
+      {{ $venueField := cond $isJournal "journal" (cond $isProceedings "booktitle" "howpublished") }}
       <pre id="bibtex-{{ .Params.bibtex_key }}"><code>@{{ $entryType }}{{ "{" }}{{ .Params.bibtex_key }},
   title     = {{ "{" }}{{ "{" }}{{ .Title | htmlUnescape }}{{ "}" }}{{ "}" }},
   author    = {{ "{" }}{{ range $i, $a := .Params.paper_authors }}{{ if $i }} and {{ end }}{{ $a.family }}, {{ $a.given }}{{ end }}{{ "}" }},
