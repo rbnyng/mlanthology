@@ -3,6 +3,7 @@ languageCode = "en-us"
 title = "ML Anthology"
 
 enableRobotsTXT = true
+disableKinds = ["sitemap"]
 
 [params]
   description = "An anthology for machine learning research"
