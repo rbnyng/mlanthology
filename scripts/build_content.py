@@ -94,7 +94,7 @@ def _write_venue_year_worker(vy_key: tuple) -> int:
             body = transcription_path.read_text(encoding="utf-8")
             # Insert transcribed: true into front matter
             page_content = page_content.replace(
-                "\n---\n\n", f"\ntranscribed: true\n---\n\n{body}\n", 1
+                "\n---\n", f"\ntranscribed: true\n---\n\n{body}\n", 1
             )
 
         (year_dir / f"{paper_id}.md").write_text(page_content, encoding="utf-8")
