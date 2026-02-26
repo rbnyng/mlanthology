@@ -88,6 +88,22 @@ def iter_papers(
 # Mojibake: double-encoded UTF-8 signature (Ã followed by high byte).
 _MOJIBAKE_RE = re.compile(r"\xc3[\x80-\xbf]")
 
+# Non-paper entries: prefaces, frontmatter, and proceedings volume descriptions
+# that get erroneously indexed as papers by DBLP/PMLR/IEEE.
+def _is_non_paper(title: str, abstract: str = "") -> bool:
+    t = title.strip()
+    tl = t.lower()
+    if re.search(r"\bpreface\.?$", tl):                           return True
+    if "frontmatter" in tl or "front matter" in tl:               return True
+    if "proceedings, part" in tl:                                 return True
+    if re.match(r"proceedings of ", t, re.IGNORECASE):            return True
+    if re.match(r"joint proceedings of ", t, re.IGNORECASE):      return True
+    if "machine learning, proceedings of" in tl:                  return True
+    if abstract and "Conference proceedings front matter" in abstract: return True
+    if re.search(r"\d{4}, proceedings$", tl):                     return True
+    if re.match(r"preface (to|for)\b", t, re.IGNORECASE):         return True
+    return False
+
 # HTML tags that are NOT just ML-domain inline tokens.
 # We flag real structural HTML tags: div, span, table, a, img, etc.
 # We skip sub/sup (legitimate math formatting), and we skip lone
@@ -162,6 +178,10 @@ def validate(
         # ── title checks ─────────────────────────────────────────
         title = p.get("title", "")
         if title:
+            if _is_non_paper(title, p.get("abstract", "")):
+                flag("non_paper_entry", source_file, key,
+                     f"appears to be a preface/frontmatter/proceedings volume: {title[:80]}")
+
             if len(title) < 10:
                 flag("short_title", source_file, key,
                      f"title only {len(title)} chars: {title!r}")
