@@ -1,0 +1,132 @@
+name: Storage Cleanup
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Weekly on Sunday at 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      artifact_max_age_days:
+        description: 'Delete artifacts older than this many days'
+        required: false
+        default: '30'
+        type: string
+      run_max_age_days:
+        description: 'Delete workflow run logs older than this many days'
+        required: false
+        default: '90'
+        type: string
+      dry_run:
+        description: 'Dry run: list items that would be deleted without deleting them'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          MAX_AGE_DAYS: ${{ inputs.artifact_max_age_days || '30' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: |
+          echo "=== Artifact cleanup (older than ${MAX_AGE_DAYS} days) ==="
+          cutoff=$(date -u -d "${MAX_AGE_DAYS} days ago" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Cutoff date: ${cutoff}"
+
+          page=1
+          deleted=0
+          skipped=0
+
+          while true; do
+            response=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${REPO}/actions/artifacts?per_page=100&page=${page}")
+
+            count=$(echo "$response" | jq '.artifacts | length')
+            [ "$count" -eq 0 ] && break
+
+            while IFS= read -r artifact; do
+              id=$(echo "$artifact" | jq -r '.id')
+              name=$(echo "$artifact" | jq -r '.name')
+              created=$(echo "$artifact" | jq -r '.created_at')
+              size=$(echo "$artifact" | jq -r '.size_in_bytes')
+
+              if [[ "$created" < "$cutoff" ]]; then
+                size_mb=$(echo "scale=2; ${size}/1048576" | bc)
+                if [ "$DRY_RUN" = "true" ]; then
+                  echo "[DRY RUN] Would delete: id=${id} name=${name} created=${created} size=${size_mb}MB"
+                else
+                  echo "Deleting: id=${id} name=${name} created=${created} size=${size_mb}MB"
+                  gh api --method DELETE "/repos/${REPO}/actions/artifacts/${id}"
+                fi
+                deleted=$((deleted + 1))
+              else
+                skipped=$((skipped + 1))
+              fi
+            done < <(echo "$response" | jq -c '.artifacts[]')
+
+            page=$((page + 1))
+          done
+
+          echo ""
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run complete. Would delete: ${deleted} artifact(s). Kept: ${skipped}."
+          else
+            echo "Done. Deleted: ${deleted} artifact(s). Kept: ${skipped}."
+          fi
+
+      - name: Delete old workflow run logs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          MAX_AGE_DAYS: ${{ inputs.run_max_age_days || '90' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: |
+          echo "=== Workflow run log cleanup (older than ${MAX_AGE_DAYS} days) ==="
+          cutoff=$(date -u -d "${MAX_AGE_DAYS} days ago" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Cutoff date: ${cutoff}"
+
+          # Only remove completed/failed/cancelled runs — never in-progress ones
+          for status in completed failure cancelled skipped; do
+            page=1
+            echo "--- status: ${status} ---"
+
+            while true; do
+              response=$(gh api \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/${REPO}/actions/runs?status=${status}&per_page=100&page=${page}")
+
+              count=$(echo "$response" | jq '.workflow_runs | length')
+              [ "$count" -eq 0 ] && break
+
+              while IFS= read -r run; do
+                id=$(echo "$run" | jq -r '.id')
+                name=$(echo "$run" | jq -r '.name')
+                created=$(echo "$run" | jq -r '.created_at')
+
+                if [[ "$created" < "$cutoff" ]]; then
+                  if [ "$DRY_RUN" = "true" ]; then
+                    echo "[DRY RUN] Would delete run: id=${id} name=${name} created=${created}"
+                  else
+                    echo "Deleting run: id=${id} name=${name} created=${created}"
+                    gh api --method DELETE "/repos/${REPO}/actions/runs/${id}"
+                  fi
+                fi
+              done < <(echo "$response" | jq -c '.workflow_runs[]')
+
+              page=$((page + 1))
+            done
+          done
+
+          echo ""
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run complete."
+          else
+            echo "Workflow run log cleanup done."
+          fi
