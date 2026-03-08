@@ -631,6 +631,40 @@ def clean_code_url(raw: str) -> str:
     return ""
 
 
+# ---------------------------------------------------------------------------
+# Abstract spacing repair
+# ---------------------------------------------------------------------------
+
+# Matches a sentence-ending period (preceded by at least 2 lowercase letters)
+# followed immediately by an uppercase letter with no space.
+# Excludes patterns inside URLs (http...) and common abbreviations.
+_PERIOD_NO_SPACE_RE = re.compile(
+    r"(?<=[a-z]{2})\."    # period after 2+ lowercase chars
+    r"(?=[A-Z])"           # followed by uppercase
+)
+
+# Matches a comma followed immediately by a lowercase letter with no space,
+# excluding digit contexts (e.g. "1,000").
+_COMMA_NO_SPACE_RE = re.compile(
+    r"(?<=[a-z]),"         # comma after lowercase
+    r"(?=[a-z])"           # followed by lowercase
+)
+
+
+def repair_abstract_spacing(text: str) -> str:
+    """Fix missing spaces from PDF text extraction artifacts.
+
+    Handles two high-confidence patterns:
+    - Missing space after sentence-ending period: "entirely.Experiments"
+    - Missing space after comma: "however,the"
+    """
+    if not text:
+        return text
+    text = _PERIOD_NO_SPACE_RE.sub(". ", text)
+    text = _COMMA_NO_SPACE_RE.sub(", ", text)
+    return text
+
+
 # required fields — missing one means a bug in the adapter
 _REQUIRED_PAPER_FIELDS = ("bibtex_key", "title", "authors", "year")
 
@@ -670,7 +704,7 @@ def normalize_paper(paper: dict) -> dict:
         _raw_authors.append(cleaned)
     _raw_authors = [a for a in _raw_authors if a.get("given") or a.get("family")]
     authors = [{**a, "slug": slugify_author(a)} for a in _raw_authors]
-    abstract = repair_mojibake(paper.get("abstract", ""))
+    abstract = repair_abstract_spacing(repair_mojibake(paper.get("abstract", "")))
 
     return {
         "bibtex_key": paper["bibtex_key"],
