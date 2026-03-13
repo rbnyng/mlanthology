@@ -325,6 +325,7 @@ def _title_search_file(
     api_key: str | None,
     dry_run: bool,
     limit: int,
+    reverse: bool = False,
 ) -> int:
     """Run title-based OpenAlex search on papers missing abstract+DOI.
 
@@ -334,6 +335,8 @@ def _title_search_file(
     if not indices:
         return 0
 
+    if reverse:
+        indices = list(reversed(indices))
     target_indices = indices[:limit] if limit > 0 else indices
     target_papers = [papers[i] for i in target_indices]
 
@@ -367,6 +370,7 @@ def enrich_legacy_title_search(
     api_key: str | None = None,
     dry_run: bool = False,
     limit: int = 0,
+    reverse: bool = False,
 ) -> int:
     """Enrich a legacy file via OpenAlex title search.  Returns papers enriched."""
     papers = read_legacy(path)
@@ -386,7 +390,7 @@ def enrich_legacy_title_search(
     )
 
     changed = _title_search_file(
-        papers, api_key=api_key, dry_run=dry_run, limit=limit,
+        papers, api_key=api_key, dry_run=dry_run, limit=limit, reverse=reverse,
     )
 
     if not dry_run and changed > 0:
@@ -402,6 +406,7 @@ def enrich_papers_title_search(
     api_key: str | None = None,
     dry_run: bool = False,
     limit: int = 0,
+    reverse: bool = False,
 ) -> int:
     """Enrich a papers file via OpenAlex title search.  Returns papers enriched."""
     data = read_venue_json(path)
@@ -419,7 +424,7 @@ def enrich_papers_title_search(
     )
 
     changed = _title_search_file(
-        papers, api_key=api_key, dry_run=dry_run, limit=limit,
+        papers, api_key=api_key, dry_run=dry_run, limit=limit, reverse=reverse,
     )
 
     if not dry_run and changed > 0:
@@ -494,6 +499,11 @@ def main() -> None:
         type=int,
         default=0,
         help="Limit to first N candidates per file (for testing).",
+    )
+    parser.add_argument(
+        "--reverse",
+        action="store_true",
+        help="Process candidates in reverse index order (last N instead of first N).",
     )
     parser.add_argument(
         "--no-legacy",
@@ -600,6 +610,7 @@ def main() -> None:
                 api_key=api_key,
                 dry_run=args.dry_run,
                 limit=args.limit,
+                reverse=args.reverse,
             )
 
         for path in papers_files:
@@ -608,6 +619,7 @@ def main() -> None:
                 api_key=api_key,
                 dry_run=args.dry_run,
                 limit=args.limit,
+                reverse=args.reverse,
             )
     else:
         # DOI-based enrichment (original mode)
